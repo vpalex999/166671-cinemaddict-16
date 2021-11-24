@@ -1,7 +1,7 @@
 # Проект «Киноман»
 
 * Студент: [Oleg](https://up.htmlacademy.ru/ecmascript/16/user/166671).
-* Наставник: `Неизвестно`.
+* Наставник: [Александр Тимоновский](https://htmlacademy.ru/profile/id768125).
 
 ---
 
