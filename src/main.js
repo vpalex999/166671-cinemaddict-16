@@ -8,9 +8,11 @@ import { createFilmCardTemplate } from './view/film-card-view';
 import { createButtonShowMoreTemplate } from './view/button-show-more-view';
 import { createStatisticTemplate } from './view/statistic-view';
 import { createFilmDetailsTemplate } from './view/film-details-view';
+import { generateFilm } from './mock/film';
 
-const FILM_COUNT = 5;
+const FILM_COUNT = 15;
 const isShowPopup = false;
+const films = Array.from({length: FILM_COUNT}, generateFilm);
 
 const bodyElement = document.querySelector('body');
 const headerElement = bodyElement.querySelector('.header');
@@ -43,7 +45,7 @@ renderTemplate(filmsListElement, createFilmsListContainerTemplate(), RenderPosit
 
 const filmsListContainerElement = filmsListElement.querySelector('.films-list__container');
 for (let i = 0; i < FILM_COUNT; i++) {
-  renderTemplate(filmsListContainerElement, createFilmCardTemplate(), RenderPosition.BEFOREEND);
+  renderTemplate(filmsListContainerElement, createFilmCardTemplate(films[i]), RenderPosition.BEFOREEND);
 }
 
 renderTemplate(filmsListElement, createButtonShowMoreTemplate(), RenderPosition.BEFOREEND);
