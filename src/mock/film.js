@@ -23,14 +23,23 @@ const getRandomTitle = () => {
     'не шутите с ЗОХАНОМ',
     'ДЮНА',
     'ДЖЕНТЕЛЬМЕНЫ',
-    'ГНЕВ Человеческий'
+    'ГНЕВ Человеческий',
+    'ПАССАЖИРЫ',
+    'НИКТО',
+    'КУРЬЕР',
+    'ЛЮДИ В ЧЁРНОМ',
+    'МИФ',
+    'БУГУЩИЙ ПО ЛЕЗВИЮ',
+    'СОЛЯРИС',
+    'СТАЛКЕР',
+    'СТРАЖИ ГАЛАКТИКИ'
   ];
 
   const randomIndex = getRandomInteger(0, titles.length - 1);
   return titles[randomIndex];
 };
 
-const getOriginalTitle = (text) => `Original name is ${text}`;
+const getOriginalTitle = () => `Original name is ${getRandomTitle()}`;
 
 const getRandomDuration = () => {
   const durations = [
@@ -39,7 +48,10 @@ const getRandomDuration = () => {
     '1h 30m',
     '2h 05m',
     '1h 20m',
-    '1h 46m'
+    '1h 46m',
+    '30m',
+    '45m',
+    '2h 23m'
   ];
 
   const randomIndex = getRandomInteger(0, durations.length - 1);
@@ -65,7 +77,7 @@ const getRandomGenres = () => {
   const genres = new Set();
 
   const randomNumGanres = getRandomInteger(1, 3);
-  while (genres.size !== randomNumGanres){
+  while (genres.size !== randomNumGanres) {
     genres.add(getRandonGenre());
   }
 
@@ -74,13 +86,13 @@ const getRandomGenres = () => {
 
 const getRandomPosters = () => {
   const posters = [
-    './public/images/posters/made-for-each-other.png',
-    './public/images/posters/popeye-meets-sinbad.png',
-    './public/images/posters/sagebrush-trail.jpg',
-    './public/images/posters/santa-claus-conquers-the-martians.jpg',
-    './public/images/posters/the-dance-of-life.jpg',
-    './public/images/posters/the-great-flamarion.jpg',
-    './public/images/posters/the-man-with-the-golden-arm.jpg'
+    './images/posters/made-for-each-other.png',
+    './images/posters/popeye-meets-sinbad.png',
+    './images/posters/sagebrush-trail.jpg',
+    './images/posters/santa-claus-conquers-the-martians.jpg',
+    './images/posters/the-dance-of-life.jpg',
+    './images/posters/the-great-flamarion.jpg',
+    './images/posters/the-man-with-the-golden-arm.jpg'
   ];
 
   const randomIndex = getRandomInteger(0, posters.length - 1);
@@ -288,10 +300,8 @@ const getRandomCountry = () => {
 
 const getRandomAge = () => getRandomInteger(0, 18);
 
-const randomTitle = getRandomTitle();
-
 const generateFilm = () => ({
-  title: randomTitle,
+  title: getRandomTitle(),
   rating: getRandomFloat(0.0, 10.0),
   year: getRandomInteger(1950, 2021),
   duration: getRandomDuration(),
@@ -299,7 +309,7 @@ const generateFilm = () => ({
   poster: getRandomPosters(),
   description: getRandomDescription(),
   comments: getRandomComments(0, 5),
-  titleOriginal: getOriginalTitle(randomTitle),
+  titleOriginal: getOriginalTitle(),
   director: getRandomDirector(),
   writers: getRandomWriters(),
   actors: getRandomActors(),
