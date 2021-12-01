@@ -305,7 +305,6 @@ const generateFilm = () => ({
   rating: getRandomFloat(0.0, 10.0),
   year: getRandomInteger(1950, 2021),
   duration: getRandomDuration(),
-  genre: getRandonGenre(),
   poster: getRandomPosters(),
   description: getRandomDescription(),
   comments: getRandomComments(0, 5),
