@@ -9,10 +9,12 @@ import { createButtonShowMoreTemplate } from './view/button-show-more-view';
 import { createStatisticTemplate } from './view/statistic-view';
 import { createFilmDetailsTemplate } from './view/film-details-view';
 import { generateFilm } from './mock/film';
+import {generateProfile} from './mock/profile';
 
 const FILM_COUNT = 15;
-const isShowPopup = true;
+const isShowPopup = false;
 const films = Array.from({length: FILM_COUNT}, generateFilm);
+const profile = generateProfile();
 
 const bodyElement = document.querySelector('body');
 const headerElement = bodyElement.querySelector('.header');
@@ -31,7 +33,7 @@ const renderTemplate = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
 
-renderTemplate(headerElement, createProfileTemplate(), RenderPosition.BEFOREEND);
+renderTemplate(headerElement, createProfileTemplate(profile), RenderPosition.BEFOREEND);
 renderTemplate(mainElement, createMainMenuTemplate(), RenderPosition.BEFOREEND);
 renderTemplate(mainElement, createSortFilmsTemplate(), RenderPosition.BEFOREEND);
 renderTemplate(mainElement, createFilmsTemplate(), RenderPosition.BEFOREEND);
