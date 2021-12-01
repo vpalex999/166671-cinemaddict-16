@@ -124,10 +124,10 @@ const getRandomDescription = () => {
 
 const getRandomEmoji = () => {
   const emojis = [
-    './public/images/emoji/angry.png',
-    './public/images/emoji/puke.png',
-    './public/images/emoji/sleeping.png',
-    './public/images/emoji/smile.png'
+    './images/emoji/angry.png',
+    './images/emoji/puke.png',
+    './images/emoji/sleeping.png',
+    './images/emoji/smile.png'
   ];
 
   const randomIndex = getRandomInteger(0, emojis.length - 1);
@@ -152,7 +152,8 @@ const getRandomAuthor = () => {
     'John Doe',
     'Mark Tven',
     'Vasia Pupkin',
-    'Big Boss'
+    'Big Boss',
+    'Xam'
   ];
 
   const randomIndex = getRandomInteger(0, authors.length - 1);

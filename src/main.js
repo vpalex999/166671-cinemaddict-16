@@ -11,7 +11,7 @@ import { createFilmDetailsTemplate } from './view/film-details-view';
 import { generateFilm } from './mock/film';
 
 const FILM_COUNT = 15;
-const isShowPopup = false;
+const isShowPopup = true;
 const films = Array.from({length: FILM_COUNT}, generateFilm);
 
 const bodyElement = document.querySelector('body');
@@ -54,5 +54,5 @@ renderTemplate(footerStatisticElement, createStatisticTemplate(), RenderPosition
 
 if (isShowPopup) {
   bodyElement.classList.add('hide-overflow');
-  renderTemplate(footerElement, createFilmDetailsTemplate(), RenderPosition.AFTEREND);
+  renderTemplate(footerElement, createFilmDetailsTemplate(films[1]), RenderPosition.AFTEREND);
 }
