@@ -27,7 +27,7 @@ const getRandomTitle = () => {
   return titles[randomIndex];
 };
 
-const getOriginalTitle = () => `Original name is ${getRandomTitle()}`;
+const getOriginalTitle = (title) => `Original name is ${title}`;
 
 const getRandomDuration = () => {
   const durations = [
@@ -289,23 +289,28 @@ const getRandomCountry = () => {
 
 const getRandomAge = () => getRandomInteger(0, 18);
 
-const generateFilm = () => ({
-  title: getRandomTitle(),
-  rating: getRandomFloat(0.0, 10.0),
-  year: getRandomInteger(1950, 2021),
-  duration: getRandomDuration(),
-  poster: getRandomPosters(),
-  description: getRandomDescription(),
-  comments: getRandomComments(0, 5),
-  titleOriginal: getOriginalTitle(),
-  director: getRandomDirector(),
-  writers: getRandomWriters(),
-  actors: getRandomActors(),
-  releaseDate: getRandomReleaseDate(),
-  country: getRandomCountry(),
-  genres: getRandomGenres(),
-  age: getRandomAge()
-});
+const generateFilm = () => {
+
+  const title = getRandomTitle();
+
+  return {
+    title,
+    rating: getRandomFloat(0.0, 10.0),
+    year: getRandomInteger(1950, 2021),
+    duration: getRandomDuration(),
+    poster: getRandomPosters(),
+    description: getRandomDescription(),
+    comments: getRandomComments(0, 5),
+    titleOriginal: getOriginalTitle(title),
+    director: getRandomDirector(),
+    writers: getRandomWriters(),
+    actors: getRandomActors(),
+    releaseDate: getRandomReleaseDate(),
+    country: getRandomCountry(),
+    genres: getRandomGenres(),
+    age: getRandomAge()
+  };
+};
 
 
 export { generateFilm };
