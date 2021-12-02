@@ -292,6 +292,7 @@ const getRandomAge = () => getRandomInteger(0, 18);
 const generateFilm = () => {
 
   const title = getRandomTitle();
+  const isWatch = Boolean(getRandomInteger());
 
   return {
     title,
@@ -308,9 +309,11 @@ const generateFilm = () => {
     releaseDate: getRandomReleaseDate(),
     country: getRandomCountry(),
     genres: getRandomGenres(),
-    age: getRandomAge()
+    age: getRandomAge(),
+    isWatch,
+    isHistory: !isWatch && Boolean(getRandomInteger()),
+    isFavorites: Boolean(getRandomInteger())
   };
 };
-
 
 export { generateFilm };
