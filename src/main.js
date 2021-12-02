@@ -46,8 +46,8 @@ const filmsListElement = filmsElement.querySelector('.films-list');
 renderTemplate(filmsListElement, createFilmsListContainerTemplate(), RenderPosition.BEFOREEND);
 
 const filmsListContainerElement = filmsListElement.querySelector('.films-list__container');
-for (let i = 0; i < FILM_COUNT; i++) {
-  renderTemplate(filmsListContainerElement, createFilmCardTemplate(films[i]), RenderPosition.BEFOREEND);
+for (const film of films) {
+  renderTemplate(filmsListContainerElement, createFilmCardTemplate(film), RenderPosition.BEFOREEND);
 }
 
 renderTemplate(filmsListElement, createButtonShowMoreTemplate(), RenderPosition.BEFOREEND);
