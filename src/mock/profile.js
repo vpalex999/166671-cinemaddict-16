@@ -23,5 +23,4 @@ const generateProfile = () => ({
   avatar: getRandomAvatar()
 });
 
-
 export { generateProfile };
