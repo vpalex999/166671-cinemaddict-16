@@ -5,7 +5,6 @@ const createFilmCardTemplate = (film) => {
     ? `${text.slice(0, 140)}...`
     : text;
 
-
   return `<article class="film-card">
     <a class="film-card__link">
       <h3 class="film-card__title">${title}</h3>
