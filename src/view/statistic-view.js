@@ -1,3 +1,3 @@
-const createStatisticTemplate = () => '<p>0 movies inside</p>';
+const createFooterStatisticTemplate = (count = 0) => `<p>${count} movies inside</p>`;
 
-export { createStatisticTemplate };
+export { createFooterStatisticTemplate };
