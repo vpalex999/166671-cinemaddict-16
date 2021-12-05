@@ -1,3 +1,5 @@
+import { createElement } from '../render';
+
 const createFilmCardTemplate = (film) => {
   const { title, rating, year, duration, genres, poster, description, comments } = film;
 
@@ -26,4 +28,29 @@ const createFilmCardTemplate = (film) => {
   </article>`;
 };
 
-export { createFilmCardTemplate };
+class FilmCard {
+  #element = null;
+  #film = null;
+
+  constructor(film) {
+    this.#film = film;
+  }
+
+  get template() {
+    return createFilmCardTemplate(this.#film);
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}
+
+export { FilmCard };

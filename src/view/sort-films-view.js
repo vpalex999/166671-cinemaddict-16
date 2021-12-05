@@ -1,3 +1,5 @@
+import { createElement } from '../render';
+
 const createSortFilmsTemplate = () => (
   `<ul class="sort">
     <li><a href="#" class="sort__button sort__button--active">Sort by default</a></li>
@@ -6,4 +8,24 @@ const createSortFilmsTemplate = () => (
   </ul>`
 );
 
-export { createSortFilmsTemplate };
+class SortFilms {
+  #element = null;
+
+  get template() {
+    return createSortFilmsTemplate();
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}
+
+export { SortFilms };
