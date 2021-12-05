@@ -30,16 +30,14 @@ const createFilmCardTemplate = (film) => {
 
 class FilmCard {
   #element = null;
-  #film = 0;
+  #film = null;
 
   constructor(film) {
     this.#film = film;
   }
 
   get template() {
-    return this.#film
-      ? createFilmCardTemplate(this.#film)
-      : this.#film;
+    return createFilmCardTemplate(this.#film);
   }
 
   get element() {
@@ -55,4 +53,4 @@ class FilmCard {
   }
 }
 
-export { createFilmCardTemplate, FilmCard };
+export { FilmCard };

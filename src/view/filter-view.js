@@ -80,4 +80,4 @@ class Filter {
   }
 }
 
-export { createFilterTemplate, Filter };
+export { Filter };

@@ -22,4 +22,4 @@ class FilmsListContainer {
   }
 }
 
-export { createFilmsListContainerTemplate, FilmsListContainer };
+export { FilmsListContainer };

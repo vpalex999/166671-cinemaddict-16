@@ -20,7 +20,6 @@ const createFilmDetailsTemplate = (film) => {
 
   const displayGenres = genres.map((genre) => `<span class="film-details__genre">${genre}</span>`).join('');
 
-  // TODO: createCommentDetailsTemplate -> перевести на createElement
   const displayComments = comments.map((comment) => createCommentDetailsTemplate(comment)).join('');
 
   const displayTermGenre = genres.length > 1
@@ -148,9 +147,7 @@ class FilmDetails {
   }
 
   get template() {
-    return this.#film
-      ? createFilmDetailsTemplate(this.#film)
-      : this.#film;
+    return createFilmDetailsTemplate(this.#film);
   }
 
   get element() {
@@ -166,4 +163,4 @@ class FilmDetails {
   }
 }
 
-export { createFilmDetailsTemplate, FilmDetails };
+export { FilmDetails };

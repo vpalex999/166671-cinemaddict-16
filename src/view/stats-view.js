@@ -21,4 +21,4 @@ class Stats {
     this.#element = null;
   }
 }
-export { createStatsTemplate, Stats };
+export { Stats };

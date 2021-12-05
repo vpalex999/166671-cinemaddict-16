@@ -22,4 +22,4 @@ class ShowMoreButton {
   }
 }
 
-export { createButtonShowMoreTemplate, ShowMoreButton };
+export { ShowMoreButton };

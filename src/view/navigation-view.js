@@ -22,4 +22,4 @@ class Navigation {
   }
 }
 
-export { createNavigationTemplate, Navigation };
+export { Navigation };

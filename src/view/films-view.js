@@ -22,4 +22,4 @@ class Films {
   }
 }
 
-export { createFilmsTemplate, Films };
+export { Films };

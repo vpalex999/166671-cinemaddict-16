@@ -28,4 +28,4 @@ class SortFilms {
   }
 }
 
-export { createSortFilmsTemplate, SortFilms };
+export { SortFilms };

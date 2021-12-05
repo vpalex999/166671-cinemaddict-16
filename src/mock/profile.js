@@ -2,8 +2,9 @@ import { getRandomInteger } from '../util';
 
 const getRandomRating = () => {
   const ratings = [
+    'novice',
+    'fan',
     'Movie Buff',
-    'Movie Critic'
   ];
 
   const randomIndex = getRandomInteger(0, ratings.length - 1);

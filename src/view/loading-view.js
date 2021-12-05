@@ -22,4 +22,4 @@ class Loading {
   }
 }
 
-export { createLoadingTemplate, Loading };
+export { Loading };

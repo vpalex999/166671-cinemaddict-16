@@ -9,7 +9,7 @@ const createProfileTemplate = (profile) => {
     <img class="profile__avatar" src=${avatar} alt="Avatar" width="35" height="35">
     </section>`;
   }
-  return '';
+  return null;
 };
 
 class Profile {
@@ -28,7 +28,6 @@ class Profile {
     if (!this.#element) {
       this.#element = createElement(this.template);
     }
-
     return this.#element;
   }
 
@@ -37,4 +36,4 @@ class Profile {
   }
 }
 
-export { createProfileTemplate, Profile };
+export { Profile };
