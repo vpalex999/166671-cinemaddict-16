@@ -1,14 +1,31 @@
+import { createElement } from '../render';
+import { FILTER_NAME } from '../const';
+
+const BLANK_FILTERS = [
+  {
+    name: FILTER_NAME.WATCH_LIST,
+    count: 0
+  },
+  {
+    name: FILTER_NAME.HISTORY,
+    count: 0
+  },
+  {
+    name: FILTER_NAME.FAVORITES,
+    count: 0
+  }
+];
 
 const filterItemName = {
-  watchList: {
+  [FILTER_NAME.WATCH_LIST]: {
     hrefName: '#watchlist',
     displayName: 'Watchlist'
   },
-  history: {
+  [FILTER_NAME.HISTORY]: {
     hrefName: '#history',
     displayName: 'History'
   },
-  favorites: {
+  [FILTER_NAME.FAVORITES]: {
     hrefName: '#favorites',
     displayName: 'Favorites'
   }
@@ -26,7 +43,7 @@ const createFilterItemTemplate = ({ name, count }) => {
 const createAllMoviesTemplate = () =>
   '<a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>';
 
-const createFilterTemplate = (filters) => {
+const createFilterTemplate = (filters = BLANK_FILTERS) => {
 
   const filterItemsTemplate = filters
     .map((filter) => createFilterItemTemplate(filter))
@@ -38,4 +55,29 @@ const createFilterTemplate = (filters) => {
     </div>`;
 };
 
-export { createFilterTemplate };
+class Filter {
+  #element = null;
+  #filters = null;
+
+  constructor(filters) {
+    this.#filters = filters;
+  }
+
+  get template() {
+    return createFilterTemplate(this.#filters);
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}
+
+export { createFilterTemplate, Filter };

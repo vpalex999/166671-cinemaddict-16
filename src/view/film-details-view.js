@@ -1,3 +1,4 @@
+import { createElement } from '../render';
 import { createCommentDetailsTemplate } from './comment-details-view';
 
 const createFilmDetailsTemplate = (film) => {
@@ -10,6 +11,7 @@ const createFilmDetailsTemplate = (film) => {
     actors,
     releaseDate,
     duration,
+    poster,
     country,
     genres,
     description,
@@ -18,6 +20,7 @@ const createFilmDetailsTemplate = (film) => {
 
   const displayGenres = genres.map((genre) => `<span class="film-details__genre">${genre}</span>`).join('');
 
+  // TODO: createCommentDetailsTemplate -> перевести на createElement
   const displayComments = comments.map((comment) => createCommentDetailsTemplate(comment)).join('');
 
   const displayTermGenre = genres.length > 1
@@ -32,7 +35,7 @@ const createFilmDetailsTemplate = (film) => {
       </div>
       <div class="film-details__info-wrap">
         <div class="film-details__poster">
-          <img class="film-details__poster-img" src="./images/posters/the-great-flamarion.jpg" alt="">
+          <img class="film-details__poster-img" src=${poster} alt="">
 
           <p class="film-details__age">18+</p>
         </div>
@@ -136,4 +139,31 @@ const createFilmDetailsTemplate = (film) => {
 </section>`;
 };
 
-export { createFilmDetailsTemplate };
+class FilmDetails {
+  #element = null;
+  #film = null;
+
+  constructor(film) {
+    this.#film = film;
+  }
+
+  get template() {
+    return this.#film
+      ? createFilmDetailsTemplate(this.#film)
+      : this.#film;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}
+
+export { createFilmDetailsTemplate, FilmDetails };
