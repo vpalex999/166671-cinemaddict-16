@@ -14,6 +14,7 @@ import { RenderPosition, renderElement } from './render';
 import { generateFilm } from './mock/film';
 import { generateFilters } from './mock/filter';
 import { generateProfile } from './mock/profile';
+import { isEscapeKey } from './util';
 
 const FILM_COUNT = 15;
 const FILM_COUNT_PER_STEP = 5;
@@ -48,42 +49,58 @@ renderElement(filmsListElement, new FilmsListContainer().element, RenderPosition
 
 const filmsListContainerElement = filmsListElement.querySelector('.films-list__container');
 
-const removeFilmDetailsCard = (filmDetailsCard) => {
 
-  const onCloseFilmDetailsCard = (evt) => {
-    evt.preventDefault();
-    bodyElement.classList.remove('hide-overflow');
-    bodyElement.removeChild(filmDetailsCard.element);
+const renderFilm = (filmElement, film) => {
+  const filmDetailsCard = new FilmDetails(film);
+  const filmCard = new FilmCard(film);
+
+  const onEscKeyDown = (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      bodyElement.classList.remove('hide-overflow');
+      bodyElement.removeChild(filmDetailsCard.element);
+      document.removeEventListener('keydown', onEscKeyDown);
+    }
   };
 
-  filmDetailsCard
-    .element
-    .querySelector('.film-details__close-btn')
-    .addEventListener('click', onCloseFilmDetailsCard);
-};
+  const removeFilmDetailsCard = () => {
 
-const displayFilmDetailsCard = (filmCard, filmDetailsCard) => {
+    const onCloseFilmDetailsCard = (evt) => {
+      evt.preventDefault();
+      bodyElement.classList.remove('hide-overflow');
+      bodyElement.removeChild(filmDetailsCard.element);
+    };
 
-  const onShowDetailsCard = () => {
-    bodyElement.classList.add('hide-overflow');
-    bodyElement.appendChild(filmDetailsCard.element);
+    filmDetailsCard
+      .element
+      .querySelector('.film-details__close-btn')
+      .addEventListener('click', onCloseFilmDetailsCard);
   };
 
-  filmCard
-    .element
-    .querySelector('.film-card__link')
-    .addEventListener('click', onShowDetailsCard);
+  const displayFilmDetailsCard = () => {
+
+    const onShowDetailsCard = () => {
+      bodyElement.classList.add('hide-overflow');
+      bodyElement.appendChild(filmDetailsCard.element);
+      document.addEventListener('keydown', onEscKeyDown);
+    };
+
+    filmCard
+      .element
+      .querySelector('.film-card__link')
+      .addEventListener('click', onShowDetailsCard);
+  };
+
+  removeFilmDetailsCard();
+  displayFilmDetailsCard();
+
+  renderElement(filmElement, filmCard.element, RenderPosition.BEFOREEND);
 };
 
 for (const film of films.slice(0, FILM_COUNT_PER_STEP)) {
-  const filmDetailsCard = new FilmDetails(film);
-  removeFilmDetailsCard(filmDetailsCard);
-
-  const filmCard = new FilmCard(film);
-  displayFilmDetailsCard(filmCard, filmDetailsCard);
-
-  renderElement(filmsListContainerElement, filmCard.element, RenderPosition.BEFOREEND);
+  renderFilm(filmsListContainerElement, film);
 }
+
 
 if (films.length > FILM_COUNT_PER_STEP) {
   let renderFilmCount = FILM_COUNT_PER_STEP;
@@ -97,13 +114,7 @@ if (films.length > FILM_COUNT_PER_STEP) {
     films
       .slice(renderFilmCount, renderFilmCount + FILM_COUNT_PER_STEP)
       .forEach((film) => {
-        const filmDetailsCard = new FilmDetails(film);
-        removeFilmDetailsCard(filmDetailsCard);
-
-        const filmCard = new FilmCard(film);
-        displayFilmDetailsCard(filmCard, filmDetailsCard);
-
-        renderElement(filmsListContainerElement, filmCard.element, RenderPosition.BEFOREEND);
+        renderFilm(filmsListContainerElement, film);
       });
 
     renderFilmCount += FILM_COUNT_PER_STEP;
