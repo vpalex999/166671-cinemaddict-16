@@ -1,26 +1,12 @@
 import { createElement } from '../render';
 
-const createFilmListTemplate = (films = []) => (
-  `<section class="films-list">
-    <h2 class="films-list__title">
-    ${films.length > 0
-    ? ''
-    : 'There are no movies in our database'
-  }
-  </h2>
-  </section>`
-);
+const createFilmListTemplate = () => '<section class="films-list"></section>';
 
 class FilmList {
   #element = null;
-  #films = null;
-
-  constructor(films) {
-    this.#films = films;
-  }
 
   get template() {
-    return createFilmListTemplate(this.#films);
+    return createFilmListTemplate();
   }
 
   get element() {

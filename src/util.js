@@ -11,3 +11,4 @@ export const getRandomFloat = (min = 0.0, max = 1.0, numberDecimals = 1) => {
   return Number(randomValue.toFixed(numberDecimals));
 };
 
+export const isEscapeKey = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
