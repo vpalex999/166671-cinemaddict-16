@@ -1,10 +1,10 @@
-import { createElement } from './render';
+import { createElement } from '../render';
 
-class Abstract {
+class AbstractView {
   #element = null;
 
   constructor() {
-    if (new.target === Abstract) {
+    if (new.target === AbstractView) {
       throw new Error('Can\'t instantiate AbstractView, only concrete one.');
     }
   }
@@ -26,4 +26,4 @@ class Abstract {
   }
 }
 
-export { Abstract };
+export { AbstractView };
