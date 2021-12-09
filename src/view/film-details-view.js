@@ -1,4 +1,4 @@
-import { createElement } from '../render';
+import { AbstractView } from './abstract-view';
 import { createCommentDetailsTemplate } from './comment-details-view';
 
 const createFilmDetailsTemplate = (film) => {
@@ -138,11 +138,11 @@ const createFilmDetailsTemplate = (film) => {
 </section>`;
 };
 
-class FilmDetails {
-  #element = null;
+class FilmDetails extends AbstractView {
   #film = null;
 
   constructor(film) {
+    super();
     this.#film = film;
   }
 
@@ -150,17 +150,16 @@ class FilmDetails {
     return createFilmDetailsTemplate(this.#film);
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
+  #onClose = () => {
+    this._callback.closeDetails();
+  };
 
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
-  }
+  setCloseDetailsCard = (calback) => {
+    this._callback.closeDetails = calback;
+    this.element
+      .querySelector('.film-details__close-btn')
+      .addEventListener('click', this.#onClose);
+  };
 }
 
 export { FilmDetails };

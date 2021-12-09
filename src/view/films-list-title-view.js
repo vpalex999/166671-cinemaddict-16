@@ -1,4 +1,4 @@
-import { createElement } from '../render';
+import { AbstractView } from './abstract-view';
 
 const createFilmsListTitleTemplate = (count = 0) => (
   `<h2 class="films-list__title">${count > 0
@@ -6,30 +6,17 @@ const createFilmsListTitleTemplate = (count = 0) => (
     : 'There are no movies in our database'
   }</h2>`);
 
-class FilmsListTitle {
-  #element = null;
+class FilmsListTitle extends AbstractView {
   #count = null;
 
   constructor(count) {
+    super();
     this.#count = count;
   }
 
   get template() {
     return createFilmsListTitleTemplate(this.#count);
   }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
-  }
-
 }
 
 export { FilmsListTitle };

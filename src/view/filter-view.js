@@ -1,4 +1,4 @@
-import { createElement } from '../render';
+import { AbstractView } from './abstract-view';
 import { FILTER_NAME } from '../const';
 
 const BLANK_FILTERS = [
@@ -55,28 +55,16 @@ const createFilterTemplate = (filters = BLANK_FILTERS) => {
     </div>`;
 };
 
-class Filter {
-  #element = null;
+class Filter extends AbstractView {
   #filters = null;
 
   constructor(filters) {
+    super();
     this.#filters = filters;
   }
 
   get template() {
     return createFilterTemplate(this.#filters);
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
 
