@@ -1,4 +1,4 @@
-import { getRandomInteger, getRandomFloat } from '../util';
+import { getRandomInteger, getRandomFloat } from '../utils/common';
 
 const getRandomTitle = () => {
   const titles = [

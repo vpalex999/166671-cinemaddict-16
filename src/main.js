@@ -15,7 +15,7 @@ import { RenderPosition, render } from './utils/render';
 import { generateFilm } from './mock/film';
 import { generateFilters } from './mock/filter';
 import { generateProfile } from './mock/profile';
-import { isEscapeKey } from './util';
+import { isEscapeKey } from './utils/common';
 
 const FILM_COUNT = 15;
 const FILM_COUNT_PER_STEP = 5;
