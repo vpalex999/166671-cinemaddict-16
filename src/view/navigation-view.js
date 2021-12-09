@@ -1,24 +1,11 @@
-import { createElement } from '../render';
+import { AbstractView } from './abstract-view';
 
 const createNavigationTemplate = () => '<nav class="main-navigation"></nav>';
 
-class Navigation {
-  #element = null;
+class Navigation extends AbstractView {
 
   get template() {
     return createNavigationTemplate();
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
 
