@@ -1,4 +1,4 @@
-import { AbstractView } from './view/abstract-view';
+import { AbstractView } from '../view/abstract-view';
 
 const RenderPosition = {
   BEFOREBEGIN: 'beforebegin',
@@ -7,7 +7,7 @@ const RenderPosition = {
   AFTEREND: 'afterend'
 };
 
-const renderElement = (container, element, place) => {
+function render(container, element, place) {
   const parent = container instanceof AbstractView ? container.element : container;
   const child = element instanceof AbstractView ? element.element : element;
 
@@ -25,7 +25,7 @@ const renderElement = (container, element, place) => {
       parent.after(child);
       break;
   }
-};
+}
 
 const createElement = (templateElement) => {
   const newElement = document.createElement('div');
@@ -34,4 +34,4 @@ const createElement = (templateElement) => {
   return newElement.firstChild;
 };
 
-export { RenderPosition, renderElement, createElement };
+export { RenderPosition, render, createElement };
