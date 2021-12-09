@@ -2,6 +2,7 @@ import { createElement } from '../utils/render';
 
 class AbstractView {
   #element = null;
+  _callback = {};
 
   constructor() {
     if (new.target === AbstractView) {

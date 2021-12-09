@@ -149,6 +149,17 @@ class FilmDetails extends AbstractView {
   get template() {
     return createFilmDetailsTemplate(this.#film);
   }
+
+  #onClose = () => {
+    this._callback.closeDetails();
+  };
+
+  setCloseDetailsCard = (calback) => {
+    this._callback.closeDetails = calback;
+    this.element
+      .querySelector('.film-details__close-btn')
+      .addEventListener('click', this.#onClose);
+  };
 }
 
 export { FilmDetails };

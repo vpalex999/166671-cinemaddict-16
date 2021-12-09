@@ -54,45 +54,33 @@ if (films.length) {
     const filmDetailsCard = new FilmDetails(film);
     const filmCard = new FilmCard(film);
 
+    const removeFilmDetailsCard = () => {
+      bodyElement.classList.remove('hide-overflow');
+      bodyElement.removeChild(filmDetailsCard.element);
+    };
+
+    const addFilmDetailsCard = () => {
+      bodyElement.classList.add('hide-overflow');
+      bodyElement.appendChild(filmDetailsCard.element);
+    };
+
     const onEscKeyDown = (evt) => {
       if (isEscapeKey(evt)) {
         evt.preventDefault();
-        bodyElement.classList.remove('hide-overflow');
-        bodyElement.removeChild(filmDetailsCard.element);
+        removeFilmDetailsCard();
         document.removeEventListener('keydown', onEscKeyDown);
       }
     };
 
-    const removeFilmDetailsCard = () => {
+    filmCard.setShowDetailsHandler(() => {
+      addFilmDetailsCard();
+      document.addEventListener('keydown', onEscKeyDown);
+    });
 
-      const onCloseFilmDetailsCard = (evt) => {
-        evt.preventDefault();
-        bodyElement.classList.remove('hide-overflow');
-        bodyElement.removeChild(filmDetailsCard.element);
-      };
-
-      filmDetailsCard
-        .element
-        .querySelector('.film-details__close-btn')
-        .addEventListener('click', onCloseFilmDetailsCard);
-    };
-
-    const displayFilmDetailsCard = () => {
-
-      const onShowDetailsCard = () => {
-        bodyElement.classList.add('hide-overflow');
-        bodyElement.appendChild(filmDetailsCard.element);
-        document.addEventListener('keydown', onEscKeyDown);
-      };
-
-      filmCard
-        .element
-        .querySelector('.film-card__link')
-        .addEventListener('click', onShowDetailsCard);
-    };
-
-    removeFilmDetailsCard();
-    displayFilmDetailsCard();
+    filmDetailsCard.setCloseDetailsCard(() => {
+      removeFilmDetailsCard();
+      document.addEventListener('keydown', onEscKeyDown);
+    });
 
     render(filmElement, filmCard.element, RenderPosition.BEFOREEND);
   };

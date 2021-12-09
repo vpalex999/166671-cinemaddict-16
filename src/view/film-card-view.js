@@ -39,6 +39,17 @@ class FilmCard extends AbstractView {
   get template() {
     return createFilmCardTemplate(this.#film);
   }
+
+  #onClick = () => {
+    this._callback.showDetails();
+  };
+
+  setShowDetailsHandler = (callback) => {
+    this._callback.showDetails = callback;
+    this.element
+      .querySelector('.film-card__link')
+      .addEventListener('click', this.#onClick);
+  };
 }
 
 export { FilmCard };
