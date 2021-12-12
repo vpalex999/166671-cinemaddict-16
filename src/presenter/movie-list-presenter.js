@@ -4,10 +4,7 @@ import { FilmsListTitle } from '../view/films-list-title-view';
 import { FilmsListContainer } from '../view/films-list-container-view';
 import { ShowMoreButton } from '../view/button-show-more-view';
 import { render, RenderPosition, remove } from '../utils/render';
-
-import { FilmDetails } from '../view/film-details-view';
-import { FilmCard } from '../view/film-card-view';
-import { isEscapeKey } from '../utils/common';
+import { MoviePresenter } from './movie-presenter';
 
 const FILM_COUNT_PER_STEP = 5;
 
@@ -33,46 +30,14 @@ class MovieListPresenter {
     this.#renderMovieList();
   }
 
-  #renderFilm = (filmElement, film) => {
-    const bodyElement = document.querySelector('body');
-    const filmDetailsCard = new FilmDetails(film);
-    const filmCard = new FilmCard(film);
-
-
-    const removeFilmDetailsCard = () => {
-      bodyElement.classList.remove('hide-overflow');
-      bodyElement.removeChild(filmDetailsCard.element);
-    };
-
-    const addFilmDetailsCard = () => {
-      bodyElement.classList.add('hide-overflow');
-      bodyElement.appendChild(filmDetailsCard.element);
-    };
-
-    const onEscKeyDown = (evt) => {
-      if (isEscapeKey(evt)) {
-        evt.preventDefault();
-        removeFilmDetailsCard();
-        document.removeEventListener('keydown', onEscKeyDown);
-      }
-    };
-
-    filmCard.setShowDetailsHandler(() => {
-      addFilmDetailsCard();
-      document.addEventListener('keydown', onEscKeyDown);
-    });
-
-    filmDetailsCard.setCloseDetailsCard(() => {
-      removeFilmDetailsCard();
-      document.removeEventListener('keydown', onEscKeyDown);
-    });
-
-    render(filmElement, filmCard, RenderPosition.BEFOREEND);
+  #renderFilm = (film) => {
+    const movePresenter = new MoviePresenter(this.#filmsListContainerComponent);
+    movePresenter.init(film);
   };
 
   #renderFilms = (from, to) => {
     for (const film of this.#films.slice(from, to)) {
-      this.#renderFilm(this.#filmsListContainerComponent, film);
+      this.#renderFilm(film);
     }
   };
 
