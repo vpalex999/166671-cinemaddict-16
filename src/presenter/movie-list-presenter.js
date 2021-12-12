@@ -16,6 +16,8 @@ class MovieListPresenter {
   #filmsComponent = new Films();
   #filmsListComponent = new FilmsList();
   #filmsListContainerComponent = new FilmsListContainer();
+  #renderFilmCount = FILM_COUNT_PER_STEP;
+  #showMoreButtonComponent = new ShowMoreButton();
   #films = [];
 
   constructor(filmsListContainer){
@@ -28,7 +30,7 @@ class MovieListPresenter {
     render(this.#filmsListContainer, this.#filmsComponent, RenderPosition.BEFOREEND);
     render(this.#filmsComponent, this.#filmsListComponent, RenderPosition.BEFOREEND);
 
-    this.#renderFilmsList();
+    this.#renderMovieList();
   }
 
   #renderFilm = (filmElement, film) => {
@@ -74,24 +76,29 @@ class MovieListPresenter {
     }
   };
 
+  #onShowMoreButtonClick = () => {
+    this.#renderFilms(this.#renderFilmCount, this.#renderFilmCount + FILM_COUNT_PER_STEP);
+    this.#renderFilmCount += FILM_COUNT_PER_STEP;
+
+    if (this.#renderFilmCount >= this.#films.length) {
+      remove(this.#showMoreButtonComponent);
+    }
+  };
+
   #renderShowMoreButton = () => {
-    let renderFilmCount = FILM_COUNT_PER_STEP;
-    const showMoreButtonComponent = new ShowMoreButton();
-
-    showMoreButtonComponent.setClickHandler(() => {
-      this.#renderFilms(renderFilmCount, renderFilmCount + FILM_COUNT_PER_STEP);
-
-      renderFilmCount += FILM_COUNT_PER_STEP;
-
-      if (renderFilmCount >= this.#films.length) {
-        remove(showMoreButtonComponent);
-      }
-    });
-
-    render(this.#filmsListComponent, showMoreButtonComponent, RenderPosition.BEFOREEND);
+    this.#showMoreButtonComponent.setClickHandler(this.#onShowMoreButtonClick);
+    render(this.#filmsListComponent, this.#showMoreButtonComponent, RenderPosition.BEFOREEND);
   };
 
   #renderFilmsList = () => {
+    this.#renderFilms(0, Math.min(this.#films.length, FILM_COUNT_PER_STEP));
+
+    if (this.#films.length > FILM_COUNT_PER_STEP) {
+      this.#renderShowMoreButton();
+    }
+  };
+
+  #renderMovieList = () => {
     render(this.#filmsListComponent, new FilmsListTitle(this.#films.length), RenderPosition.BEFOREEND);
 
     if(this.#films.length === 0){
@@ -102,11 +109,8 @@ class MovieListPresenter {
       render(this.#filmsListComponent, this.#filmsListContainerComponent, RenderPosition.BEFOREEND);
     }
 
-    this.#renderFilms(0, Math.min(this.#films.length, FILM_COUNT_PER_STEP));
+    this.#renderFilmsList();
 
-    if (this.#films.length > FILM_COUNT_PER_STEP) {
-      this.#renderShowMoreButton();
-    }
   };
 
 }
