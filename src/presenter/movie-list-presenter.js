@@ -12,7 +12,7 @@ import { isEscapeKey } from '../utils/common';
 const FILM_COUNT_PER_STEP = 5;
 
 class MovieListPresenter {
-  #filmsListContainer = null;
+  #mainContainer = null;
   #filmsComponent = new Films();
   #filmsListComponent = new FilmsList();
   #filmsListContainerComponent = new FilmsListContainer();
@@ -20,14 +20,14 @@ class MovieListPresenter {
   #showMoreButtonComponent = new ShowMoreButton();
   #films = [];
 
-  constructor(filmsListContainer){
-    this.#filmsListContainer = filmsListContainer;
+  constructor(mainContainer){
+    this.#mainContainer = mainContainer;
   }
 
   init = (films) => {
     this.#films = [...films];
 
-    render(this.#filmsListContainer, this.#filmsComponent, RenderPosition.BEFOREEND);
+    render(this.#mainContainer, this.#filmsComponent, RenderPosition.BEFOREEND);
     render(this.#filmsComponent, this.#filmsListComponent, RenderPosition.BEFOREEND);
 
     this.#renderMovieList();
