@@ -22,6 +22,15 @@ class MovieListPresenter {
     this.#filmsListContainer = filmsListContainer;
   }
 
+  init = (films) => {
+    this.#films = [...films];
+
+    render(this.#filmsListContainer, this.#filmsComponent, RenderPosition.BEFOREEND);
+    render(this.#filmsComponent, this.#filmsListComponent, RenderPosition.BEFOREEND);
+
+    this.#renderFilmsList();
+  }
+
   #renderFilm = (filmElement, film) => {
     const bodyElement = document.querySelector('body');
     const filmDetailsCard = new FilmDetails(film);
@@ -84,15 +93,6 @@ class MovieListPresenter {
     });
   };
 
-  init = (films) => {
-    this.#films = [...films];
-
-    render(this.#filmsListContainer, this.#filmsComponent, RenderPosition.BEFOREEND);
-    render(this.#filmsComponent, this.#filmsListComponent, RenderPosition.BEFOREEND);
-
-    this.#renderFilmsList();
-  }
-
   #renderFilmsList = () => {
     render(this.#filmsListComponent, new FilmsListTitle(this.#films.length), RenderPosition.BEFOREEND);
 
@@ -110,6 +110,7 @@ class MovieListPresenter {
       this.#renderShowMoreButton();
     }
   };
+
 }
 
 export { MovieListPresenter };
