@@ -59,6 +59,28 @@ class MovieListPresenter {
     render(filmElement, filmCard, RenderPosition.BEFOREEND);
   };
 
+  #renderShowMoreButton = () => {
+    let renderFilmCount = FILM_COUNT_PER_STEP;
+    const showMoreButton = new ShowMoreButton();
+
+    render(this.#filmsListComponent, showMoreButton, RenderPosition.BEFOREEND);
+    const showMoreElement = this.#filmsListComponent.element.querySelector('.films-list__show-more');
+
+    showMoreElement.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      this.#films
+        .slice(renderFilmCount, renderFilmCount + FILM_COUNT_PER_STEP)
+        .forEach((film) => {
+          this.#renderFilm(this.#filmsListContainerComponent, film);
+        });
+
+      renderFilmCount += FILM_COUNT_PER_STEP;
+
+      if (renderFilmCount >= this.#films.length) {
+        showMoreElement.remove();
+      }
+    });
+  };
 
   init = (films) => {
     this.#films = [...films];
@@ -85,26 +107,7 @@ class MovieListPresenter {
     }
 
     if (this.#films.length > FILM_COUNT_PER_STEP) {
-      let renderFilmCount = FILM_COUNT_PER_STEP;
-
-      const showMoreButton = new ShowMoreButton();
-      render(this.#filmsListComponent, showMoreButton, RenderPosition.BEFOREEND);
-      const showMoreElement = this.#filmsListComponent.element.querySelector('.films-list__show-more');
-
-      showMoreElement.addEventListener('click', (evt) => {
-        evt.preventDefault();
-        this.#films
-          .slice(renderFilmCount, renderFilmCount + FILM_COUNT_PER_STEP)
-          .forEach((film) => {
-            this.#renderFilm(this.#filmsListContainerComponent, film);
-          });
-
-        renderFilmCount += FILM_COUNT_PER_STEP;
-
-        if (renderFilmCount >= this.#films.length) {
-          showMoreElement.remove();  // TODO: перейти на showMoreButton
-        }
-      });
+      this.#renderShowMoreButton();
     }
   };
 }
