@@ -32,8 +32,13 @@ class MovieListPresenter {
   }
 
   #renderFilmsList = () => {
-    const bodyElement = document.querySelector('body');
     render(this.#filmsListComponent, new FilmsListTitle(this.#films.length), RenderPosition.BEFOREEND);
+
+    if(this.#films.length === 0){
+      return;
+    }
+
+    const bodyElement = document.querySelector('body');
 
     if (this.#films.length){
       render(this.#filmsListComponent, this.#filmsListContainerComponent, RenderPosition.BEFOREEND);
