@@ -3,7 +3,7 @@ import { FilmsList } from '../view/films-list-view';
 import { FilmsListTitle } from '../view/films-list-title-view';
 import { FilmsListContainer } from '../view/films-list-container-view';
 import { ShowMoreButton } from '../view/button-show-more-view';
-import { render, RenderPosition } from '../utils/render';
+import { render, RenderPosition, remove } from '../utils/render';
 
 import { FilmDetails } from '../view/film-details-view';
 import { FilmCard } from '../view/film-card-view';
@@ -76,21 +76,19 @@ class MovieListPresenter {
 
   #renderShowMoreButton = () => {
     let renderFilmCount = FILM_COUNT_PER_STEP;
-    const showMoreButton = new ShowMoreButton();
+    const showMoreButtonComponent = new ShowMoreButton();
 
-    render(this.#filmsListComponent, showMoreButton, RenderPosition.BEFOREEND);
-    const showMoreElement = this.#filmsListComponent.element.querySelector('.films-list__show-more');
-
-    showMoreElement.addEventListener('click', (evt) => {
-      evt.preventDefault();
+    showMoreButtonComponent.setClickHandler(() => {
       this.#renderFilms(renderFilmCount, renderFilmCount + FILM_COUNT_PER_STEP);
 
       renderFilmCount += FILM_COUNT_PER_STEP;
 
       if (renderFilmCount >= this.#films.length) {
-        showMoreElement.remove();
+        remove(showMoreButtonComponent);
       }
     });
+
+    render(this.#filmsListComponent, showMoreButtonComponent, RenderPosition.BEFOREEND);
   };
 
   #renderFilmsList = () => {
