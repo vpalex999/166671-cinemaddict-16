@@ -59,6 +59,12 @@ class MovieListPresenter {
     render(filmElement, filmCard, RenderPosition.BEFOREEND);
   };
 
+  #renderFilms = (from, to) => {
+    for (const film of this.#films.slice(from, to)) {
+      this.#renderFilm(this.#filmsListContainerComponent, film);
+    }
+  };
+
   #renderShowMoreButton = () => {
     let renderFilmCount = FILM_COUNT_PER_STEP;
     const showMoreButton = new ShowMoreButton();
@@ -68,11 +74,7 @@ class MovieListPresenter {
 
     showMoreElement.addEventListener('click', (evt) => {
       evt.preventDefault();
-      this.#films
-        .slice(renderFilmCount, renderFilmCount + FILM_COUNT_PER_STEP)
-        .forEach((film) => {
-          this.#renderFilm(this.#filmsListContainerComponent, film);
-        });
+      this.#renderFilms(renderFilmCount, renderFilmCount + FILM_COUNT_PER_STEP);
 
       renderFilmCount += FILM_COUNT_PER_STEP;
 
@@ -102,9 +104,7 @@ class MovieListPresenter {
       render(this.#filmsListComponent, this.#filmsListContainerComponent, RenderPosition.BEFOREEND);
     }
 
-    for (const film of this.#films.slice(0, FILM_COUNT_PER_STEP)) {
-      this.#renderFilm(this.#filmsListContainerComponent, film);
-    }
+    this.#renderFilms(0, Math.min(this.#films.length, FILM_COUNT_PER_STEP));
 
     if (this.#films.length > FILM_COUNT_PER_STEP) {
       this.#renderShowMoreButton();
