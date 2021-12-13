@@ -8,7 +8,7 @@ import { RenderPosition, render } from './utils/render';
 import { generateFilm } from './mock/film';
 import { generateFilters } from './mock/filter';
 import { generateProfile } from './mock/profile';
-import {MovieListPresenter} from './presenter/movie-list-presenter';
+import { MovieListPresenter } from './presenter/movie-list-presenter';
 
 const FILM_COUNT = 15;
 const films = Array.from({ length: FILM_COUNT }, generateFilm);

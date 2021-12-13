@@ -17,7 +17,7 @@ class MovieListPresenter {
   #showMoreButtonComponent = new ShowMoreButton();
   #films = [];
 
-  constructor(mainContainer){
+  constructor(mainContainer) {
     this.#mainContainer = mainContainer;
   }
 
@@ -66,11 +66,11 @@ class MovieListPresenter {
   #renderMovieList = () => {
     render(this.#filmsListComponent, new FilmsListTitle(this.#films.length), RenderPosition.BEFOREEND);
 
-    if(this.#films.length === 0){
+    if (this.#films.length === 0) {
       return;
     }
 
-    if (this.#films.length){
+    if (this.#films.length) {
       render(this.#filmsListComponent, this.#filmsListContainerComponent, RenderPosition.BEFOREEND);
     }
 

@@ -10,7 +10,7 @@ class MoviePresenter {
   #bodyElement = document.querySelector('body');
   #film = null;
 
-  constructor(filmListContainer){
+  constructor(filmListContainer) {
     this.#filmListContainerComponent = filmListContainer;
   }
 
@@ -55,4 +55,4 @@ class MoviePresenter {
 
 }
 
-export {MoviePresenter};
+export { MoviePresenter };
