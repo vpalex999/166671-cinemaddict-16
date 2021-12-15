@@ -50,6 +50,42 @@ class FilmCard extends AbstractView {
       .querySelector('.film-card__link')
       .addEventListener('click', this.#onClick);
   };
+
+  #onAddToWatchListClick = (evt) => {
+    evt.preventDefault();
+    this._callback.addToWatchList();
+  };
+
+  setAddToWatchListHandler = (callback) => {
+    this._callback.addToWatchList = callback;
+    this.element
+      .querySelector('.film-card__controls-item--add-to-watchlist')
+      .addEventListener('click', this.#onAddToWatchListClick);
+  };
+
+  #onMarkAsWatchedClick = (evt) => {
+    evt.preventDefault();
+    this._callback.markAsWatched();
+  };
+
+  setMarkAsWatchedHandler = (callback) => {
+    this._callback.markAsWatched = callback;
+    this.element
+      .querySelector('.film-card__controls-item--mark-as-watched')
+      .addEventListener('click', this.#onMarkAsWatchedClick);
+  };
+
+  #onMarkAsFavoriteClick = (evt) => {
+    evt.preventDefault();
+    this._callback.markAsFavorite();
+  };
+
+  setMarkAsFavoriteHandler = (callback) => {
+    this._callback.markAsFavorite = callback;
+    this.element
+      .querySelector('.film-card__controls-item--favorite')
+      .addEventListener('click', this.#onMarkAsFavoriteClick);
+  };
 }
 
 export { FilmCard };

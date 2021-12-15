@@ -32,7 +32,7 @@ class MovieListPresenter {
   }
 
   #onFilmChange = (updatedFilm) => {
-    this.films = this.#films.map((film) => film.id === updatedFilm.id ? updatedFilm : film);
+    this.#films = this.#films.map((film) => film.id === updatedFilm.id ? updatedFilm : film);
     this.#filmPresenterMap.get(updatedFilm.id).init(updatedFilm);
   };
 
@@ -44,7 +44,7 @@ class MovieListPresenter {
   };
 
   #renderFilm = (film) => {
-    const movePresenter = new MoviePresenter(this.#filmsListContainerComponent);
+    const movePresenter = new MoviePresenter(this.#filmsListContainerComponent, this.#onFilmChange);
     movePresenter.init(film);
     this.#filmPresenterMap.set(film.id, movePresenter);
   };
