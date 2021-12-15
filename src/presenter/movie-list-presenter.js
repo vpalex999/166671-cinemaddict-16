@@ -31,6 +31,11 @@ class MovieListPresenter {
     this.#renderMovieList();
   }
 
+  #onFilmChange = (updatedFilm) => {
+    this.films = this.#films.map((film) => film.id === updatedFilm.id ? updatedFilm : film);
+    this.#filmPresenterMap.get(updatedFilm.id).init(updatedFilm);
+  };
+
   #clearFilmList = () => {
     this.#filmPresenterMap.forEach((presenter) => presenter.destroy());
     this.#filmPresenterMap.clear();
