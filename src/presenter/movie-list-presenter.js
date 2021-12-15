@@ -15,6 +15,7 @@ class MovieListPresenter {
   #filmsListContainerComponent = new FilmsListContainer();
   #renderFilmCount = FILM_COUNT_PER_STEP;
   #showMoreButtonComponent = new ShowMoreButton();
+  #filmPresenterMap = new Map();
   #films = [];
 
   constructor(mainContainer) {
@@ -30,9 +31,17 @@ class MovieListPresenter {
     this.#renderMovieList();
   }
 
+  #clearFilmList = () => {
+    this.#filmPresenterMap.forEach((presenter) => presenter.destroy());
+    this.#filmPresenterMap.clear();
+    this.#renderFilmCount = FILM_COUNT_PER_STEP;
+    remove(this.#showMoreButtonComponent);
+  };
+
   #renderFilm = (film) => {
     const movePresenter = new MoviePresenter(this.#filmsListContainerComponent);
     movePresenter.init(film);
+    this.#filmPresenterMap.set(film.id, movePresenter);
   };
 
   #renderFilms = (from, to) => {
