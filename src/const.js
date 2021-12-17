@@ -1,4 +1,4 @@
-export const FILTER_NAME = {
+export const FilterName = {
   WATCH_LIST: 'watchList',
   HISTORY: 'history',
   FAVORITES: 'favorites'
