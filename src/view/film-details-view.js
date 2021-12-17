@@ -154,12 +154,49 @@ class FilmDetails extends AbstractView {
     this._callback.closeDetails();
   };
 
-  setCloseDetailsCard = (calback) => {
+  setCloseDetailsCardHandler = (calback) => {
     this._callback.closeDetails = calback;
     this.element
       .querySelector('.film-details__close-btn')
       .addEventListener('click', this.#onClose);
   };
+
+  #onAddToWatchListClick = (evt) => {
+    evt.preventDefault();
+    this._callback.addToWatchList();
+  };
+
+  setAddToWatchListHandler = (callback) => {
+    this._callback.addToWatchList = callback;
+    this.element
+      .querySelector('.film-details__control-button--watchlist')
+      .addEventListener('click', this.#onAddToWatchListClick);
+  };
+
+  #onMarkAsWatchedClick = (evt) => {
+    evt.preventDefault();
+    this._callback.markAsWatched();
+  };
+
+  setMarkAsWatchedHandler = (callback) => {
+    this._callback.markAsWatched = callback;
+    this.element
+      .querySelector('.film-details__control-button--watched')
+      .addEventListener('click', this.#onMarkAsWatchedClick);
+  };
+
+  #onMarkAsFavoriteClick = (evt) => {
+    evt.preventDefault();
+    this._callback.markAsFavorite();
+  };
+
+  setMarkAsFavoriteHandler = (callback) => {
+    this._callback.markAsFavorite = callback;
+    this.element
+      .querySelector('.film-details__control-button--favorite')
+      .addEventListener('click', this.#onMarkAsFavoriteClick);
+  };
+
 }
 
 export { FilmDetails };

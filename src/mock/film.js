@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import { getRandomInteger, getRandomFloat } from '../utils/common';
 
 const getRandomTitle = () => {
@@ -295,6 +296,7 @@ const generateFilm = () => {
   const isWatch = Boolean(getRandomInteger());
 
   return {
+    id: nanoid(),
     title,
     rating: getRandomFloat(0.0, 10.0),
     year: getRandomInteger(1950, 2021),
