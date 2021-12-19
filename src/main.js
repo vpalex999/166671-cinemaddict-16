@@ -2,7 +2,6 @@ import { Profile } from './view/profile-view';
 import { Navigation } from './view/navigation-view';
 import { Filter } from './view/filter-view';
 import { Stats } from './view/stats-view';
-import { SortFilms } from './view/sort-films-view';
 import { FooterStatistic } from './view/statistic-view';
 import { RenderPosition, render } from './utils/render';
 import { generateFilm } from './mock/film';
@@ -32,7 +31,6 @@ const movieListPresenter = new MovieListPresenter(mainElement);
 
 if (films.length) {
   render(headerElement, new Profile(profile).element, RenderPosition.BEFOREEND);
-  render(navigationElement, new SortFilms().element, RenderPosition.AFTEREND);
 }
 
 movieListPresenter.init(films);
