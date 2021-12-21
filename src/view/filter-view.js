@@ -1,31 +1,31 @@
 import { AbstractView } from './abstract-view';
-import { FILTER_NAME } from '../const';
+import { FilterName } from '../const';
 
 const BLANK_FILTERS = [
   {
-    name: FILTER_NAME.WATCH_LIST,
+    name: FilterName.WATCH_LIST,
     count: 0
   },
   {
-    name: FILTER_NAME.HISTORY,
+    name: FilterName.HISTORY,
     count: 0
   },
   {
-    name: FILTER_NAME.FAVORITES,
+    name: FilterName.FAVORITES,
     count: 0
   }
 ];
 
 const filterItemName = {
-  [FILTER_NAME.WATCH_LIST]: {
+  [FilterName.WATCH_LIST]: {
     hrefName: '#watchlist',
     displayName: 'Watchlist'
   },
-  [FILTER_NAME.HISTORY]: {
+  [FilterName.HISTORY]: {
     hrefName: '#history',
     displayName: 'History'
   },
-  [FILTER_NAME.FAVORITES]: {
+  [FilterName.FAVORITES]: {
     hrefName: '#favorites',
     displayName: 'Favorites'
   }
