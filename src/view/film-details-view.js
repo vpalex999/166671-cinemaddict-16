@@ -1,7 +1,9 @@
-import { AbstractView } from './abstract-view';
+import { SmartView } from './smart-view';
 import { createCommentDetailsTemplate } from './comment-details-view';
 
-const createFilmDetailsTemplate = (film) => {
+const createEmojiImgTemplate = (emojiName) => emojiName ? `<img src="./images/emoji/${emojiName}.png" width="30" height="30" alt="emoji">` : '';
+
+const createFilmDetailsTemplate = (data) => {
   const {
     title,
     titleOriginal,
@@ -15,8 +17,10 @@ const createFilmDetailsTemplate = (film) => {
     country,
     genres,
     description,
-    comments
-  } = film;
+    comments,
+    newEmoji,
+    newComment
+  } = data;
 
   const displayGenres = genres.map((genre) => `<span class="film-details__genre">${genre}</span>`).join('');
 
@@ -25,6 +29,9 @@ const createFilmDetailsTemplate = (film) => {
   const displayTermGenre = genres.length > 1
     ? 's'
     : '';
+
+  const newEmojiImg = createEmojiImgTemplate(newEmoji);
+  const newCommentValue = newComment ? newComment : '';
 
   return `<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -104,10 +111,10 @@ const createFilmDetailsTemplate = (film) => {
         <ul class="film-details__comments-list">${displayComments}</ul>
 
         <div class="film-details__new-comment">
-          <div class="film-details__add-emoji-label"></div>
+          <div class="film-details__add-emoji-label">${newEmojiImg}</div>
 
           <label class="film-details__comment-label">
-            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
+            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${newCommentValue}</textarea>
           </label>
 
           <div class="film-details__emoji-list">
@@ -138,16 +145,33 @@ const createFilmDetailsTemplate = (film) => {
 </section>`;
 };
 
-class FilmDetails extends AbstractView {
-  #film = null;
+class FilmDetails extends SmartView {
 
   constructor(film) {
     super();
-    this.#film = film;
+    this._data = FilmDetails.parseFilmToData(film);
+
+    const filmDetailsEmojiList = this.element.querySelector('.film-details__emoji-list');
+    filmDetailsEmojiList.addEventListener('click', (evt) => {
+      // evt.preventDefault();
+      if (evt.target.tagName === 'INPUT') {
+        this.updateData({ newEmoji: evt.target.value });
+      }
+    });
+
+    this.element
+      .querySelector('.film-details__comment-input')
+      .addEventListener('click', (evt) => {
+        this.updateData({newComment: evt.target.value}, true);
+      });
   }
 
+  restoreHandlers = () => {
+    // throw new Error('Absctract method not implemented: restoreHandlers');
+  };
+
   get template() {
-    return createFilmDetailsTemplate(this.#film);
+    return createFilmDetailsTemplate(this._data);
   }
 
   #onClose = () => {
@@ -196,6 +220,12 @@ class FilmDetails extends AbstractView {
       .querySelector('.film-details__control-button--favorite')
       .addEventListener('click', this.#onMarkAsFavoriteClick);
   };
+
+  static parseFilmToData = (film) => ({
+    ...film,
+    newEmoji: null,
+    newComment: null,
+  });
 
 }
 
