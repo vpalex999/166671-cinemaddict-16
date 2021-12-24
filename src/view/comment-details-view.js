@@ -1,5 +1,10 @@
 import { AbstractView } from './abstract-view';
 
+// TODO:
+// 1. Реализует выход без сохранения
+// 2. позаботиться при перерисовке о позиции скролла.
+// 3.
+
 const createCommentDetailsTemplate = (comment) => {
   const { emoji, text, author, day } = comment;
 
