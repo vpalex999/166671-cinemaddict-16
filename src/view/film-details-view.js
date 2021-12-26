@@ -48,6 +48,7 @@ const createFilmDetailsTemplate = (data) => {
     commentInput
   } = data;
 
+  // TODO: Вынести за шаблон
   const displayGenres = genres.map((genre) => `<span class="film-details__genre">${genre}</span>`).join('');
 
   const displayComments = comments.map((comment) => createCommentDetailsTemplate(comment)).join('');
@@ -170,6 +171,15 @@ class FilmDetails extends SmartView {
     this.updateData({ commentInput: evt.target.value }, true);
   };
 
+  #onScroll = (evt) => {
+    evt.preventDefault();
+    this.updateData({ scrollTop: evt.target.scrollTop }, true);
+  };
+
+  #setScrollPosition = () => {
+    this.element.scrollTop = this._data.scrollTop;
+  };
+
   #setInnerHandlers = () => {
     this.element.querySelector('.film-details__emoji-list')
       .addEventListener('click', this.#onClickEmoji);
@@ -177,10 +187,14 @@ class FilmDetails extends SmartView {
     this.element
       .querySelector('.film-details__comment-input')
       .addEventListener('input', this.#onInputComment);
+
+    this.element
+      .addEventListener('scroll', this.#onScroll);
   };
 
   restoreHandlers = () => {
     this.#setInnerHandlers();
+    this.#setScrollPosition();
     this.setCloseDetailsCardHandler(this._callback.closeDetails);
     this.setAddToWatchListHandler(this._callback.addToWatchList);
     this.setMarkAsWatchedHandler(this._callback.markAsWatched);
@@ -243,6 +257,7 @@ class FilmDetails extends SmartView {
     ...film,
     commentEmoji: null,
     commentInput: null,
+    scrollTop: 0,
   });
 
 }
