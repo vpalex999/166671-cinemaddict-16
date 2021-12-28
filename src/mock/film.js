@@ -1,6 +1,9 @@
 import { nanoid } from 'nanoid';
 import { getRandomInteger, getRandomFloat } from '../utils/common';
 
+const MIN_DURATION = 30;
+const MAX_DURATION = 180;
+
 const getRandomTitle = () => {
   const titles = [
     'The Dance of Life',
@@ -29,23 +32,6 @@ const getRandomTitle = () => {
 };
 
 const getOriginalTitle = (title) => `Original name is ${title}`;
-
-const getRandomDuration = () => {
-  const durations = [
-    '1h 55m',
-    '1h 36m',
-    '1h 30m',
-    '2h 05m',
-    '1h 20m',
-    '1h 46m',
-    '30m',
-    '45m',
-    '2h 23m'
-  ];
-
-  const randomIndex = getRandomInteger(0, durations.length - 1);
-  return durations[randomIndex];
-};
 
 const getRandonGenre = () => {
   const genres = [
@@ -300,7 +286,7 @@ const generateFilm = () => {
     title,
     rating: getRandomFloat(0.0, 10.0),
     year: getRandomInteger(1950, 2021),
-    duration: getRandomDuration(),
+    duration: getRandomInteger(MIN_DURATION, MAX_DURATION),
     poster: getRandomPosters(),
     description: getRandomDescription(),
     comments: getRandomComments(0, 5),

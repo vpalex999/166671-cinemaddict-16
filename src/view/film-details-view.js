@@ -1,6 +1,7 @@
 import { SmartView } from './smart-view';
 import { EMOJIS } from '../const';
 import { createCommentDetailsTemplate } from './comment-details-view';
+import { getFilmDurationFormat } from '../utils/film';
 
 const createEmojiImgTemplate = (emoji) => `<img src="./images/emoji/${emoji}.png" width="30" height="30" alt="emoji-${emoji}">`;
 
@@ -60,6 +61,8 @@ const createFilmDetailsTemplate = (data) => {
   const emojiList = createEmojiListTemplate(commentEmoji);
   const addComment = createAddCommentTemplate(commentEmoji, commentInput);
 
+  const runTime = getFilmDurationFormat(duration);
+
   return `<section class="film-details">
               <form class="film-details__inner" action="" method="get">
                 <div class="film-details__top-container">
@@ -104,7 +107,7 @@ const createFilmDetailsTemplate = (data) => {
                         </tr>
                         <tr class="film-details__row">
                           <td class="film-details__term">Runtime</td>
-                          <td class="film-details__cell">${duration}</td>
+                          <td class="film-details__cell">${runTime}</td>
                         </tr>
                         <tr class="film-details__row">
                           <td class="film-details__term">Country</td>
