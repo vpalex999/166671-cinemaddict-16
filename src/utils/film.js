@@ -11,3 +11,5 @@ export const sortTaskDate = (filmA, filmB) => dayjs(filmB.releaseDate).diff(dayj
 export const sortTaskRating = (filmA, filmB) => filmB.rating - filmA.rating;
 
 export const getFilmDurationFormat = (period) => dayjs.duration(period, 'minutes').format('H[h] mm[min]');
+
+export const getFilmReleaseDateFormat = (date) => dayjs(date).format('DD MMMM YYYY');

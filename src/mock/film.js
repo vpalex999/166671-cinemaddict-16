@@ -235,18 +235,18 @@ const getRandomActors = () => {
 
 const getRandomReleaseDate = () => {
   const realeases = [
-    '30 March 1945',
-    '01 April 1963',
-    '23 January 1984',
-    '04 May 2017',
-    '12 June 2010',
-    '29 July 2001',
-    '19 August 2020',
-    '15 September 2020',
-    '05 October 2008',
-    '17 November 1998',
-    '31 December 1997',
-    '07 February 2002'
+    '1945-03-30T00:00:00.000Z',
+    '1963-04-01T00:00:00.000Z',
+    '1984-02-23T00:00:00.000Z',
+    '2017-04-04T00:00:00.000Z',
+    '2010-07-12T00:00:00.000Z',
+    '2001-06-29T00:00:00.000Z',
+    '2020-08-19T00:00:00.000Z',
+    '2020-09-15T00:00:00.000Z',
+    '2008-10-05T00:00:00.000Z',
+    '1998-10-17T00:00:00.000Z',
+    '1997-12-30T00:00:00.000Z',
+    '2002-01-07T00:00:00.000Z',
   ];
 
   const randomIndex = getRandomInteger(0, realeases.length - 1);
