@@ -1,6 +1,9 @@
 import { nanoid } from 'nanoid';
 import { getRandomInteger, getRandomFloat } from '../utils/common';
 
+const MIN_DURATION = 30;
+const MAX_DURATION = 180;
+
 const getRandomTitle = () => {
   const titles = [
     'The Dance of Life',
@@ -29,23 +32,6 @@ const getRandomTitle = () => {
 };
 
 const getOriginalTitle = (title) => `Original name is ${title}`;
-
-const getRandomDuration = () => {
-  const durations = [
-    '1h 55m',
-    '1h 36m',
-    '1h 30m',
-    '2h 05m',
-    '1h 20m',
-    '1h 46m',
-    '30m',
-    '45m',
-    '2h 23m'
-  ];
-
-  const randomIndex = getRandomInteger(0, durations.length - 1);
-  return durations[randomIndex];
-};
 
 const getRandonGenre = () => {
   const genres = [
@@ -151,12 +137,13 @@ const getRandomAuthor = () => {
 
 const getRandomCommentDay = () => {
   const days = [
-    '2019/12/31 23:59',
-    '2018/05/12 12:02',
-    '2021/08/27 16:34',
-    '2021/09/05 01:20',
-    '2021/11/24 18:15',
-    '2021/05/17 22:46'
+    '2019-12-31T23:59:32.554Z',
+    '2018-05-12T12:02:32.554Z',
+    '2021-08-27T16:34:32.554Z',
+    '2021-09-05T01:20:32.554Z',
+    '2021-11-24T18:15:32.554Z',
+    '2021-05-17T22:46:32.554Z',
+    '2021-12-29T07:46:32.554Z',
   ];
 
   const randomIndex = getRandomInteger(0, days.length - 1);
@@ -249,18 +236,18 @@ const getRandomActors = () => {
 
 const getRandomReleaseDate = () => {
   const realeases = [
-    '30 March 1945',
-    '01 April 1963',
-    '23 January 1984',
-    '04 May 2017',
-    '12 June 2010',
-    '29 July 2001',
-    '19 August 2020',
-    '15 September 2020',
-    '05 October 2008',
-    '17 November 1998',
-    '31 December 1997',
-    '07 February 2002'
+    '1945-03-30T00:00:00.000Z',
+    '1963-04-01T00:00:00.000Z',
+    '1984-02-23T00:00:00.000Z',
+    '2017-04-04T00:00:00.000Z',
+    '2010-07-12T00:00:00.000Z',
+    '2001-06-29T00:00:00.000Z',
+    '2020-08-19T00:00:00.000Z',
+    '2020-09-15T00:00:00.000Z',
+    '2008-10-05T00:00:00.000Z',
+    '1998-10-17T00:00:00.000Z',
+    '1997-12-30T00:00:00.000Z',
+    '2002-01-07T00:00:00.000Z',
   ];
 
   const randomIndex = getRandomInteger(0, realeases.length - 1);
@@ -300,7 +287,7 @@ const generateFilm = () => {
     title,
     rating: getRandomFloat(0.0, 10.0),
     year: getRandomInteger(1950, 2021),
-    duration: getRandomDuration(),
+    duration: getRandomInteger(MIN_DURATION, MAX_DURATION),
     poster: getRandomPosters(),
     description: getRandomDescription(),
     comments: getRandomComments(0, 5),
