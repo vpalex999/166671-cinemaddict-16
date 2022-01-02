@@ -21,17 +21,23 @@ class MovieListPresenter {
   #showMoreButtonComponent = new ShowMoreButton();
   #filmPresenterMap = new Map();
   #films = [];
+  #filmsModel = null;
 
   #currentSortType = SortType.DEFAULT;
   #sourceFilms = [];
 
-  constructor(mainContainer) {
+  constructor(mainContainer, filmsModel) {
     this.#mainContainer = mainContainer;
+    this.#filmsModel = filmsModel;
   }
 
-  init = (films) => {
-    this.#films = [...films];
-    this.#sourceFilms = [...films];
+  get films() {
+    return this.#filmsModel.films;
+  }
+
+  init = () => {
+    this.#films = [...this.films];
+    this.#sourceFilms = [...this.films];
 
     render(this.#mainContainer, this.#filmsComponent, RenderPosition.BEFOREEND);
     render(this.#filmsComponent, this.#filmsListComponent, RenderPosition.BEFOREEND);

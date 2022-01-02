@@ -8,11 +8,16 @@ import { generateFilm } from './mock/film';
 import { generateFilters } from './mock/filter';
 import { generateProfile } from './mock/profile';
 import { MovieListPresenter } from './presenter/movie-list-presenter';
+import { MoviesModel } from './model/movies-model';
 
 const FILM_COUNT = 15;
 const films = Array.from({ length: FILM_COUNT }, generateFilm);
 const filters = generateFilters(films);
 const profile = generateProfile();
+
+const filmsModel = new MoviesModel();
+filmsModel.films = films;
+
 
 const bodyElement = document.querySelector('body');
 
@@ -27,12 +32,12 @@ const navigationElement = mainElement.querySelector('.main-navigation');
 render(navigationElement, new Filter(filters).element, RenderPosition.BEFOREEND);
 render(navigationElement, new Stats().element, RenderPosition.BEFOREEND);
 
-const movieListPresenter = new MovieListPresenter(mainElement);
+const movieListPresenter = new MovieListPresenter(mainElement, filmsModel);
 
 if (films.length) {
   render(headerElement, new Profile(profile).element, RenderPosition.BEFOREEND);
 }
 
-movieListPresenter.init(films);
+movieListPresenter.init();
 
 render(footerStatisticElement, new FooterStatistic(films.length).element, RenderPosition.BEFOREEND);
