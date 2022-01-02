@@ -7,7 +7,7 @@ import { ShowMoreButton } from '../view/button-show-more-view';
 import { render, RenderPosition, remove } from '../utils/render';
 import { sortTaskDate, sortTaskRating } from '../utils/film';
 import { MoviePresenter } from './movie-presenter';
-import { SortType } from '../const';
+import { SortType, UserAction, UpdateType } from '../const';
 
 const FILM_COUNT_PER_STEP = 5;
 
@@ -50,19 +50,25 @@ class MovieListPresenter {
     this.#renderMovieList();
   }
 
-  #onModelEvent = (data) => {
+  #onModelEvent = (updateType, data) => {
     // Коллбэк вызывается моделью по подписке
-    this.#filmPresenterMap.get(data.id).init(data);
-    this.#clearFilmList();
-    this.#renderFilmsList();
+    switch(updateType){
+      case UpdateType.PATCH:
+        this.#filmPresenterMap.get(data.id).init(data);
+        break;
+    }
   };
 
-  #onViewAction = (update) => {
+  #onViewAction = (userAction, updateType, update) => {
     // Здесь будем вызывать обновление модели.
-    // actionType - действие пользователя, нужно чтобы понять, какой метод модели вызвать
+    // userAction - действие пользователя, нужно чтобы понять, какой метод модели вызвать
     // updateType - тип изменений, нужно чтобы понять, что после нужно обновить
     // update - обновленные данные
-    this.#filmsModel.updateFilm(update);
+    switch (userAction){
+      case UserAction.UPDATE_FILM:
+        this.#filmsModel.updateFilm(updateType, update);
+        break;
+    }
   };
 
   #clearFilmList = () => {

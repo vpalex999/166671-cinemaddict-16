@@ -2,6 +2,7 @@ import { FilmCard } from '../view/film-card-view';
 import { FilmDetails } from '../view/film-details-view';
 import { isEscapeKey } from '../utils/common';
 import { render, RenderPosition, replace, remove } from '../utils/render';
+import { UserAction, UpdateType } from '../const';
 
 const Mode = {
   DEFAULT: 'DEFAULT',
@@ -96,15 +97,24 @@ class MoviePresenter {
   };
 
   #onAddToWatchList = () => {
-    this.#changeData({ ...this.#film, isWatch: !this.#film.isWatch });
+    this.#changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.PATCH,
+      { ...this.#film, isWatch: !this.#film.isWatch });
   };
 
   #onMarkAsWatched = () => {
-    this.#changeData({ ...this.#film, isHistory: !this.#film.isHistory });
+    this.#changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.PATCH,
+      { ...this.#film, isHistory: !this.#film.isHistory });
   };
 
   #onMarkAsFavorite = () => {
-    this.#changeData({ ...this.#film, isFavorites: !this.#film.isFavorites });
+    this.#changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.PATCH,
+      { ...this.#film, isFavorites: !this.#film.isFavorites });
   };
 
 }

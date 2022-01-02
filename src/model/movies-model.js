@@ -11,10 +11,10 @@ class MoviesModel extends AbstractObservable {
     return this.#films;
   }
 
-  updateFilm = (update) => {
+  updateFilm = (updateType, update) => {
     this.#films = this.#films.map((film) => film.id === update.id ? update : film);
 
-    this._notify(update);
+    this._notify(updateType, update);
   };
 }
 

@@ -9,8 +9,8 @@ class AbstractObservable {
     this.#observers.delete(observer);
   }
 
-  _notify(payload) {
-    this.#observers.forEach((observer) => observer(payload));
+  _notify(event, payload) {
+    this.#observers.forEach((observer) => observer(event, payload));
   }
 }
 
