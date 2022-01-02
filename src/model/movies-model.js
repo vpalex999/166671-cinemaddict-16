@@ -1,4 +1,4 @@
-import {AbstractObservable} from '../utils/abstract-observable';
+import { AbstractObservable } from '../utils/abstract-observable';
 
 class MoviesModel extends AbstractObservable {
   #films = [];
@@ -11,8 +11,10 @@ class MoviesModel extends AbstractObservable {
     return this.#films;
   }
 
-  updateFilm = (updatedFilm) => {
-    this.#films = this.#films.map((film) => film.id === updatedFilm.id ? updatedFilm : film);
+  updateFilm = (update) => {
+    this.#films = this.#films.map((film) => film.id === update.id ? update : film);
+
+    this._notify(update);
   };
 }
 

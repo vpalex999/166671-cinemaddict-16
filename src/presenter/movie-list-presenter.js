@@ -27,6 +27,8 @@ class MovieListPresenter {
   constructor(mainContainer, filmsModel) {
     this.#mainContainer = mainContainer;
     this.#filmsModel = filmsModel;
+
+    this.#filmsModel.addObserver(this.#onModelEvent);
   }
 
   get films() {
@@ -48,10 +50,19 @@ class MovieListPresenter {
     this.#renderMovieList();
   }
 
-  #onFilmChange = (updatedFilm) => {
-    // this.#films = updateFilm(this.#films, updatedFilm);
-    // this.#sourceFilms = updateFilm(this.#films, updatedFilm);
-    this.#filmPresenterMap.get(updatedFilm.id).init(updatedFilm);
+  #onModelEvent = (data) => {
+    // Коллбэк вызывается моделью по подписке
+    this.#filmPresenterMap.get(data.id).init(data);
+    this.#clearFilmList();
+    this.#renderFilmsList();
+  };
+
+  #onViewAction = (update) => {
+    // Здесь будем вызывать обновление модели.
+    // actionType - действие пользователя, нужно чтобы понять, какой метод модели вызвать
+    // updateType - тип изменений, нужно чтобы понять, что после нужно обновить
+    // update - обновленные данные
+    this.#filmsModel.updateFilm(update);
   };
 
   #clearFilmList = () => {
@@ -62,7 +73,7 @@ class MovieListPresenter {
   };
 
   #renderFilm = (film) => {
-    const movePresenter = new MoviePresenter(this.#filmsListContainerComponent, this.#onFilmChange);
+    const movePresenter = new MoviePresenter(this.#filmsListContainerComponent, this.#onViewAction);
     movePresenter.init(film);
     this.#filmPresenterMap.set(film.id, movePresenter);
   };
