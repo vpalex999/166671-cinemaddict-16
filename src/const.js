@@ -1,4 +1,5 @@
 export const FilterName = {
+  ALL: 'all',
   WATCH_LIST: 'watchList',
   HISTORY: 'history',
   FAVORITES: 'favorites'
@@ -19,5 +20,5 @@ export const UserAction = {
 export const UpdateType = {
   PATCH: 'PATCH',  // обновляем только представление фильма и его расширенную реализацию.
   MINOR: 'MINOR',  // пока не понятно
-  MAJOR: 'MAJOR',  // пока не понятно
+  MAJOR: 'MAJOR',  // всё рендерим
 };

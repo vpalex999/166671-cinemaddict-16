@@ -8,6 +8,7 @@ import { generateFilters } from './mock/filter';
 import { generateProfile } from './mock/profile';
 import { MovieListPresenter } from './presenter/movie-list-presenter';
 import { MoviesModel } from './model/movies-model';
+import { FilterModel } from './model/filters-model';
 import { FilterPresenter } from './presenter/filter-presenter';
 
 const FILM_COUNT = 15;
@@ -17,6 +18,8 @@ const profile = generateProfile();
 
 const filmsModel = new MoviesModel();
 filmsModel.films = films;
+
+const filterModel = new FilterModel();
 
 
 const bodyElement = document.querySelector('body');
@@ -30,7 +33,7 @@ render(mainElement, new Navigation().element, RenderPosition.BEFOREEND);
 
 const navigationElement = mainElement.querySelector('.main-navigation');
 
-const filterPresenter = new FilterPresenter(navigationElement);
+const filterPresenter = new FilterPresenter(navigationElement, filterModel);
 filterPresenter.init(filters);
 
 render(navigationElement, new Stats().element, RenderPosition.BEFOREEND);

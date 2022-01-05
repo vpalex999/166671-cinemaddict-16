@@ -1,3 +1,4 @@
+import { UpdateType } from '../const';
 import { remove, render, RenderPosition, replace } from '../utils/render';
 import { Filter } from '../view/filter-view';
 
@@ -5,10 +6,13 @@ import { Filter } from '../view/filter-view';
 class FilterPresenter {
   #filterContainer = null;
   #filterComponent = null;
+  #filterModel = null;
   #filters = null;
 
-  constructor(mainContainer) {
+  constructor(mainContainer, filterModel) {
     this.#filterContainer = mainContainer;
+    this.#filterModel = filterModel;
+
   }
 
   init = (filters) => {
@@ -27,7 +31,14 @@ class FilterPresenter {
     remove(prevFilterComponent);
 
   };
-}
 
+  #onViewAction = (filter) => {
+    if (this.#filterModel.filter === filter) {
+      return;
+    }
+
+    this.#filterModel.updateFilter(UpdateType.MAJOR, filter);
+  };
+}
 
 export { FilterPresenter };
