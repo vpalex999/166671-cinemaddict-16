@@ -1,8 +1,8 @@
 export const FilterName = {
-  ALL: 'all',
-  WATCH_LIST: 'watchList',
-  HISTORY: 'history',
-  FAVORITES: 'favorites'
+  ALL: 'All movies',
+  WATCH_LIST: 'Watchlist',
+  HISTORY: 'History',
+  FAVORITES: 'Favorites'
 };
 
 export const SortType = {
