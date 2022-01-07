@@ -8,6 +8,7 @@ import { render, RenderPosition, remove } from '../utils/render';
 import { sortTaskDate, sortTaskRating } from '../utils/film';
 import { MoviePresenter } from './movie-presenter';
 import { SortType, UserAction, UpdateType } from '../const';
+import { filter } from '../utils/filter';
 
 const FILM_COUNT_PER_STEP = 5;
 
@@ -21,24 +22,32 @@ class MovieListPresenter {
   #showMoreButtonComponent = new ShowMoreButton();
   #filmPresenterMap = new Map();
   #filmsModel = null;
+  #filterModel = null;
 
   #currentSortType = SortType.DEFAULT;
 
-  constructor(mainContainer, filmsModel) {
+  constructor(mainContainer, filmsModel, filterModel) {
     this.#mainContainer = mainContainer;
     this.#filmsModel = filmsModel;
+    this.#filterModel = filterModel;
 
     this.#filmsModel.addObserver(this.#onModelEvent);
+    this.#filterModel.addObserver(this.#onModelEvent);
   }
 
   get films() {
+
+    const filterType = this.#filterModel.filter;
+    const films = this.#filmsModel.films;
+    const filteredFilms = filter[filterType](films);
+
     switch (this.#currentSortType) {
       case SortType.DATE:
-        return [...this.#filmsModel.films].sort(sortTaskDate);
+        return filteredFilms.sort(sortTaskDate);
       case SortType.RATING:
-        return [...this.#filmsModel.films].sort(sortTaskRating);
+        return filteredFilms.sort(sortTaskRating);
       default:
-        return [...this.#filmsModel.films];
+        return filteredFilms;
     }
   }
 
@@ -52,9 +61,13 @@ class MovieListPresenter {
 
   #onModelEvent = (updateType, data) => {
     // Коллбэк вызывается моделью по подписке
-    switch(updateType){
+    switch (updateType) {
       case UpdateType.PATCH:
         this.#filmPresenterMap.get(data.id).init(data);
+        break;
+      case UpdateType.MAJOR:
+        this.#clearFilmList();
+        this.#renderFilmsList();
         break;
     }
   };
@@ -64,7 +77,7 @@ class MovieListPresenter {
     // userAction - действие пользователя, нужно чтобы понять, какой метод модели вызвать
     // updateType - тип изменений, нужно чтобы понять, что после нужно обновить
     // update - обновленные данные
-    switch (userAction){
+    switch (userAction) {
       case UserAction.UPDATE_FILM:
         this.#filmsModel.updateFilm(updateType, update);
         break;

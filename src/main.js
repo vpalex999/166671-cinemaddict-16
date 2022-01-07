@@ -36,7 +36,7 @@ filterPresenter.init();
 
 render(navigationElement, new Stats().element, RenderPosition.BEFOREEND);
 
-const movieListPresenter = new MovieListPresenter(mainElement, filmsModel);
+const movieListPresenter = new MovieListPresenter(mainElement, filmsModel, filterModel);
 
 if (films.length) {
   render(headerElement, new Profile(profile).element, RenderPosition.BEFOREEND);
