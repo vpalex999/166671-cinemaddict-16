@@ -7,7 +7,7 @@ import { ShowMoreButton } from '../view/button-show-more-view';
 import { render, RenderPosition, remove } from '../utils/render';
 import { sortTaskDate, sortTaskRating } from '../utils/film';
 import { MoviePresenter } from './movie-presenter';
-import { SortType, UserAction, UpdateType } from '../const';
+import { SortType, UserAction, UpdateType, FilterName } from '../const';
 import { filter } from '../utils/filter';
 
 const FILM_COUNT_PER_STEP = 5;
@@ -23,6 +23,9 @@ class MovieListPresenter {
   #filmPresenterMap = new Map();
   #filmsModel = null;
   #filterModel = null;
+  #filterType = FilterName.ALL;
+  #noFilmsTitle = null;
+  #filmsTitleUpload = null;
 
   #currentSortType = SortType.DEFAULT;
 
@@ -37,9 +40,9 @@ class MovieListPresenter {
 
   get films() {
 
-    const filterType = this.#filterModel.filter;
+    this.#filterType = this.#filterModel.filter;
     const films = this.#filmsModel.films;
-    const filteredFilms = filter[filterType](films);
+    const filteredFilms = filter[this.#filterType](films);
 
     switch (this.#currentSortType) {
       case SortType.DATE:
@@ -67,7 +70,7 @@ class MovieListPresenter {
         break;
       case UpdateType.MAJOR:
         this.#clearFilmList();
-        this.#renderFilmsList();
+        this.#renderMovieList();
         break;
     }
   };
@@ -85,6 +88,15 @@ class MovieListPresenter {
   };
 
   #clearFilmList = () => {
+
+    if (this.#filmsTitleUpload) {
+      remove(this.#filmsTitleUpload);
+    }
+
+    if (this.#noFilmsTitle) {
+      remove(this.#noFilmsTitle);
+    }
+
     this.#filmPresenterMap.forEach((presenter) => presenter.destroy());
     this.#filmPresenterMap.clear();
     this.#renderFilmCount = FILM_COUNT_PER_STEP;
@@ -142,13 +154,24 @@ class MovieListPresenter {
     }
   };
 
+  #renderNoFilmsListTitle = () => {
+    this.#noFilmsTitle = new FilmsListTitle(this.#filterType);
+    render(this.#filmsListComponent, this.#noFilmsTitle, RenderPosition.BEFOREEND);
+  }
+
+  #renderFilmsListTitle = () => {
+    this.#filmsTitleUpload = new FilmsListTitle();
+    render(this.#filmsListComponent, this.#filmsTitleUpload, RenderPosition.BEFOREEND);
+  };
+
   #renderMovieList = () => {
-    render(this.#filmsListComponent, new FilmsListTitle(this.films.length), RenderPosition.BEFOREEND);
 
     if (this.films.length === 0) {
+      this.#renderNoFilmsListTitle();
       return;
     }
 
+    this.#renderFilmsListTitle();
     render(this.#filmsListComponent, this.#filmsListContainerComponent, RenderPosition.BEFOREEND);
     this.#renderSort();
     this.#renderFilmsList();

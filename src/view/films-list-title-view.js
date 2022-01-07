@@ -1,21 +1,30 @@
 import { AbstractView } from './abstract-view';
+import { FilterName } from '../const';
 
-const createFilmsListTitleTemplate = (count = 0) => (
-  `<h2 class="films-list__title">${count > 0
-    ? 'All movies. Upcoming'
-    : 'There are no movies in our database'
-  }</h2>`);
+const ALL_MOVIES_UPCOMING = 'All movies. Upcoming';
+
+const NoFilmsTextType = {
+  [FilterName.ALL]: 'There are no movies in our database',
+  [FilterName.WATCH_LIST]: 'There are no movies to watch now',
+  [FilterName.HISTORY]: 'There are no watched movies now',
+  [FilterName.FAVORITES]: 'There are no favorite movies now',
+};
+
+const createFilmsListTitleTemplate = (filmTitle) => (`<h2 class="films-list__title">${filmTitle}</h2>`);
+
 
 class FilmsListTitle extends AbstractView {
-  #count = null;
+  #noFilmsFilterType = null;
 
-  constructor(count) {
+  constructor(noFilmsFilterType) {
     super();
-    this.#count = count;
+    this.#noFilmsFilterType = noFilmsFilterType;
   }
 
   get template() {
-    return createFilmsListTitleTemplate(this.#count);
+    const filmTitle = this.#noFilmsFilterType ? NoFilmsTextType[this.#noFilmsFilterType] : ALL_MOVIES_UPCOMING;
+
+    return createFilmsListTitleTemplate(filmTitle);
   }
 }
 
