@@ -33,12 +33,17 @@ class MovieListPresenter {
     this.#mainContainer = mainContainer;
     this.#filmsModel = filmsModel;
     this.#filterModel = filterModel;
+    this.#filterType = this.#filterModel.filter;
 
     this.#filmsModel.addObserver(this.#onModelEvent);
     this.#filterModel.addObserver(this.#onModelEvent);
   }
 
   get films() {
+
+    if (this.#filterType !== this.#filterModel.filter) {
+      this.#currentSortType = SortType.DEFAULT;
+    }
 
     this.#filterType = this.#filterModel.filter;
     const films = this.#filmsModel.films;
@@ -124,7 +129,7 @@ class MovieListPresenter {
 
     this.#currentSortType = sortType;
     this.#clearFilmList();
-    this.#renderFilmsList();
+    this.#renderMovieList();
   }
 
   #renderSort = () => {

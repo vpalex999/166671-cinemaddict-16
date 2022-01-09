@@ -34,7 +34,7 @@ const filterItemName = {
 };
 
 const createFilterItemTemplate = (filter, currentFilter) => {
-  const {name, count} = filter;
+  const { name, count } = filter;
 
   if (name === FilterName.ALL) {
     return;
@@ -78,10 +78,15 @@ class Filter extends AbstractView {
 
   #onFilterTypeChange = (evt) => {
     evt.preventDefault();
-    if(evt.target.tagName === 'A'){
-      const [filterType] = evt.target.textContent.split('\n');
-      this._callback.filterTypeChange(filterType.trim());
+    let filterType = null;
+
+    if (evt.target.tagName === 'A') {
+      [filterType] = evt.target.textContent.split('\n');
+    } else if (evt.target.parentElement.tagName === 'A') {
+      [filterType] = evt.target.parentElement.textContent.split('\n');
     }
+
+    this._callback.filterTypeChange(filterType.trim());
   };
 
   setFilterTypeChangeHandler = (callback) => {

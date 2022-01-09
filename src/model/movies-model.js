@@ -8,7 +8,7 @@ class MoviesModel extends AbstractObservable {
   }
 
   get films() {
-    return this.#films;
+    return [...this.#films];
   }
 
   updateFilm = (updateType, update) => {
