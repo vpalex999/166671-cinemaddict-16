@@ -81,6 +81,7 @@ class MoviePresenter {
   #onEscKeyDown = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
+      this.#filmDetailsCardComponent.reset(this.#film);
       this.#removeFilmDetailsCard();
       document.removeEventListener('keydown', this.#onEscKeyDown);
     }
@@ -92,6 +93,7 @@ class MoviePresenter {
   };
 
   #onClosedDetailsCardHandler = () => {
+    this.#filmDetailsCardComponent.reset(this.#film);
     this.#removeFilmDetailsCard();
     document.removeEventListener('keydown', this.#onEscKeyDown);
   };

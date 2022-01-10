@@ -184,6 +184,12 @@ class FilmDetails extends SmartView {
     this.element.scrollTop = this._data.scrollTop;
   };
 
+  #onCommentDelete = (evt) => {
+    evt.preventDefault();
+    const newComments = this._data.comments.filter((comment) => comment.id !== evt.target.id);
+    this.updateData({ comments: newComments });
+  };
+
   #setInnerHandlers = () => {
     this.element.querySelector('.film-details__emoji-list')
       .addEventListener('click', this.#onClickEmoji);
@@ -194,6 +200,10 @@ class FilmDetails extends SmartView {
 
     this.element
       .addEventListener('scroll', this.#onScroll);
+
+    this.element
+      .querySelector('.film-details__comments-list')
+      .addEventListener('click', this.#onCommentDelete);
   };
 
   restoreHandlers = () => {
@@ -209,6 +219,11 @@ class FilmDetails extends SmartView {
     return createFilmDetailsTemplate(this._data);
   }
 
+  reset = (film) => {
+    this.updateData(
+      FilmDetails.parseFilmToData(film),
+    );
+  }
 
   #onClose = () => {
     this._callback.closeDetails();
