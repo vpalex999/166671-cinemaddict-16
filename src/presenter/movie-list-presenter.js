@@ -89,6 +89,9 @@ class MovieListPresenter {
       case UserAction.UPDATE_FILM:
         this.#filmsModel.updateFilm(updateType, update);
         break;
+      case UserAction.DELETE_COMMENT:
+        this.#filmsModel.updateFilm(updateType, update);
+        break;
     }
   };
 

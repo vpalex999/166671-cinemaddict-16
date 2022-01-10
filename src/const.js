@@ -15,6 +15,7 @@ export const EMOJIS = ['smile', 'sleeping', 'puke', 'angry'];
 
 export const UserAction = {
   UPDATE_FILM: 'UPDATE_FILM',
+  DELETE_COMMENT: 'DELETE_COMMENT',
 };
 
 export const UpdateType = {
