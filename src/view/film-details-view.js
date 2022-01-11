@@ -1,3 +1,4 @@
+import he from 'he';
 import { SmartView } from './smart-view';
 import { EMOJIS } from '../const';
 import { createCommentDetailsTemplate } from './comment-details-view';
@@ -11,7 +12,7 @@ const createAddCommentTemplate = (emoji, comment) => {
 
   return `<div class="film-details__add-emoji-label">${emojiImg}</div>
     <label class="film-details__comment-label">
-      <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${newComment}</textarea>
+      <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${he.encode(newComment)}</textarea>
     </label>`;
 };
 
