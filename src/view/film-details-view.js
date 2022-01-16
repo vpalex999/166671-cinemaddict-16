@@ -205,6 +205,14 @@ class FilmDetails extends SmartView {
     this.element
       .querySelector('.film-details__comments-list')
       .addEventListener('click', this.#onCommentDelete);
+
+    document.addEventListener('keydown', (evt) => {
+      // эксперимент обработать событие ctrl + Enter для сохранения коментария
+      evt.preventDefault();
+      if(evt.ctrlKey && evt.key === 'Enter'){
+        console.log('crtl + Enter !!!');
+      }
+    });
   };
 
   restoreHandlers = () => {
