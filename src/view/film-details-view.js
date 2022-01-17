@@ -161,7 +161,6 @@ class FilmDetails extends SmartView {
     this._data = FilmDetails.parseFilmToData(film);
 
     this.#setInnerHandlers();
-
   }
 
   #onClickEmoji = (evt) => {
@@ -185,12 +184,6 @@ class FilmDetails extends SmartView {
     this.element.scrollTop = this._data.scrollTop;
   };
 
-  #onCommentDelete = (evt) => {
-    evt.preventDefault();
-    const newComments = this._data.comments.filter((comment) => comment.id !== evt.target.id);
-    this.updateData({ comments: newComments });
-  };
-
   #setInnerHandlers = () => {
     this.element.querySelector('.film-details__emoji-list')
       .addEventListener('click', this.#onClickEmoji);
@@ -202,14 +195,10 @@ class FilmDetails extends SmartView {
     this.element
       .addEventListener('scroll', this.#onScroll);
 
-    this.element
-      .querySelector('.film-details__comments-list')
-      .addEventListener('click', this.#onCommentDelete);
-
     document.addEventListener('keydown', (evt) => {
       // эксперимент обработать событие ctrl + Enter для сохранения коментария
       evt.preventDefault();
-      if(evt.ctrlKey && evt.key === 'Enter'){
+      if (evt.ctrlKey && evt.key === 'Enter') {
         console.log('crtl + Enter !!!');
       }
     });
@@ -222,6 +211,7 @@ class FilmDetails extends SmartView {
     this.setAddToWatchListHandler(this._callback.addToWatchList);
     this.setMarkAsWatchedHandler(this._callback.markAsWatched);
     this.setMarkAsFavoriteHandler(this._callback.setMarkAsFavoriteHandler);
+    this.setDeleteCommentHandler(this._callback.deleteComment);
   };
 
   get template() {
@@ -279,6 +269,18 @@ class FilmDetails extends SmartView {
     this.element
       .querySelector('.film-details__control-button--favorite')
       .addEventListener('click', this.#onMarkAsFavoriteClick);
+  };
+
+  #onCommentDelete = (evt) => {
+    evt.preventDefault();
+    this._callback.deleteComment(evt.target.id);
+  };
+
+  setDeleteCommentHandler = (callback) => {
+    this._callback.deleteComment = callback;
+    this.element
+      .querySelector('.film-details__comments-list')
+      .addEventListener('click', this.#onCommentDelete);
   };
 
   static parseFilmToData = (film) => ({

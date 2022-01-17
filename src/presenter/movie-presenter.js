@@ -42,6 +42,7 @@ class MoviePresenter {
     this.#filmDetailsCardComponent.setAddToWatchListHandler(this.#onAddToWatchList);
     this.#filmDetailsCardComponent.setMarkAsWatchedHandler(this.#onMarkAsWatched);
     this.#filmDetailsCardComponent.setMarkAsFavoriteHandler(this.#onMarkAsFavorite);
+    this.#filmDetailsCardComponent.setDeleteCommentHandler(this.#onDeleteComment);
 
     if (prevfilmCardComponent === null || prevfilmDetailsCardComponent === null) {
       render(this.#filmListContainerComponent, this.#filmCardComponent, RenderPosition.BEFOREEND);
@@ -119,6 +120,14 @@ class MoviePresenter {
       { ...this.#film, isFavorites: !this.#film.isFavorites });
   };
 
+  #onDeleteComment = (id) => {
+    const newComments = this.#film.comments.filter((comment) => comment.id !== id);
+
+    this.#changeData(
+      UserAction.DELETE_COMMENT,
+      UpdateType.PATCH,
+      { ...this.#film, comments: newComments });
+  };
 }
 
 export { MoviePresenter };
