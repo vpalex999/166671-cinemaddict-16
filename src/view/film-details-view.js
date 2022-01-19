@@ -3,6 +3,8 @@ import { SmartView } from './smart-view';
 import { EMOJIS } from '../const';
 import { createCommentDetailsTemplate } from './comment-details-view';
 import { getFilmDurationFormat, getFilmReleaseDateFormat } from '../utils/film';
+import { getRandomComment } from '../mock/film';
+
 
 const createEmojiImgTemplate = (emoji) => `<img src="./images/emoji/${emoji}.png" width="30" height="30" alt="emoji-${emoji}">`;
 
@@ -194,14 +196,6 @@ class FilmDetails extends SmartView {
 
     this.element
       .addEventListener('scroll', this.#onScroll);
-
-    document.addEventListener('keydown', (evt) => {
-      // эксперимент обработать событие ctrl + Enter для сохранения коментария
-      evt.preventDefault();
-      if (evt.ctrlKey && evt.key === 'Enter') {
-        console.log('crtl + Enter !!!');
-      }
-    });
   };
 
   restoreHandlers = () => {
@@ -212,6 +206,7 @@ class FilmDetails extends SmartView {
     this.setMarkAsWatchedHandler(this._callback.markAsWatched);
     this.setMarkAsFavoriteHandler(this._callback.setMarkAsFavoriteHandler);
     this.setDeleteCommentHandler(this._callback.deleteComment);
+    this.setAddCommentHandler(this._callback.addComment);
   };
 
   get template() {
@@ -283,6 +278,18 @@ class FilmDetails extends SmartView {
       .addEventListener('click', this.#onCommentDelete);
   };
 
+  #onAddComment = (evt) => {
+    if (evt.ctrlKey && evt.key === 'Enter') {
+      evt.preventDefault();
+      this._callback.addComment(FilmDetails.parseDataToFilm(this._data));
+    }
+  };
+
+  setAddCommentHandler = (callback) => {
+    this._callback.addComment = callback;
+    document.addEventListener('keydown', this.#onAddComment);
+  };
+
   static parseFilmToData = (film) => ({
     ...film,
     commentEmoji: null,
@@ -290,6 +297,25 @@ class FilmDetails extends SmartView {
     scrollTop: 0,
   });
 
+  static parseDataToFilm = (data) => {
+    const film = { ...data };
+
+    if (film.commentEmoji && film.commentInput) {
+      const newComment = {
+        ...getRandomComment(),
+        emoji: `./images/emoji/${film.commentEmoji}.png`,
+        text: film.commentInput
+      };
+
+      film.comments = [...film.comments, newComment];
+    }
+
+    delete film.commentEmoji;
+    delete film.commentInput;
+    delete film.scrollTop;
+
+    return film;
+  }
 }
 
 export { FilmDetails };

@@ -43,6 +43,7 @@ class MoviePresenter {
     this.#filmDetailsCardComponent.setMarkAsWatchedHandler(this.#onMarkAsWatched);
     this.#filmDetailsCardComponent.setMarkAsFavoriteHandler(this.#onMarkAsFavorite);
     this.#filmDetailsCardComponent.setDeleteCommentHandler(this.#onDeleteComment);
+    this.#filmDetailsCardComponent.setAddCommentHandler(this.#onAddComment);
 
     if (prevfilmCardComponent === null || prevfilmDetailsCardComponent === null) {
       render(this.#filmListContainerComponent, this.#filmCardComponent, RenderPosition.BEFOREEND);
@@ -128,6 +129,14 @@ class MoviePresenter {
       UpdateType.PATCH,
       { ...this.#film, comments: newComments });
   };
+
+  #onAddComment = (update) => {
+    this.#changeData(
+      UserAction.ADD_COMMENT,
+      UpdateType.PATCH,
+      update
+    );
+  }
 }
 
 export { MoviePresenter };

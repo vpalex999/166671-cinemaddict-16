@@ -306,4 +306,4 @@ const generateFilm = () => {
   };
 };
 
-export { generateFilm };
+export { generateFilm, getRandomComment};
