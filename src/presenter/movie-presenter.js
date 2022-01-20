@@ -2,6 +2,7 @@ import { FilmCard } from '../view/film-card-view';
 import { FilmDetails } from '../view/film-details-view';
 import { isEscapeKey } from '../utils/common';
 import { render, RenderPosition, replace, remove } from '../utils/render';
+import { UserAction, UpdateType } from '../const';
 
 const Mode = {
   DEFAULT: 'DEFAULT',
@@ -41,6 +42,8 @@ class MoviePresenter {
     this.#filmDetailsCardComponent.setAddToWatchListHandler(this.#onAddToWatchList);
     this.#filmDetailsCardComponent.setMarkAsWatchedHandler(this.#onMarkAsWatched);
     this.#filmDetailsCardComponent.setMarkAsFavoriteHandler(this.#onMarkAsFavorite);
+    this.#filmDetailsCardComponent.setDeleteCommentHandler(this.#onDeleteComment);
+    this.#filmDetailsCardComponent.setAddCommentHandler(this.#onAddComment);
 
     if (prevfilmCardComponent === null || prevfilmDetailsCardComponent === null) {
       render(this.#filmListContainerComponent, this.#filmCardComponent, RenderPosition.BEFOREEND);
@@ -80,6 +83,7 @@ class MoviePresenter {
   #onEscKeyDown = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
+      this.#filmDetailsCardComponent.reset(this.#film);
       this.#removeFilmDetailsCard();
       document.removeEventListener('keydown', this.#onEscKeyDown);
     }
@@ -91,22 +95,48 @@ class MoviePresenter {
   };
 
   #onClosedDetailsCardHandler = () => {
+    this.#filmDetailsCardComponent.reset(this.#film);
     this.#removeFilmDetailsCard();
     document.removeEventListener('keydown', this.#onEscKeyDown);
   };
 
   #onAddToWatchList = () => {
-    this.#changeData({ ...this.#film, isWatch: !this.#film.isWatch });
+    this.#changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.PATCH,
+      { ...this.#film, isWatch: !this.#film.isWatch });
   };
 
   #onMarkAsWatched = () => {
-    this.#changeData({ ...this.#film, isHistory: !this.#film.isHistory });
+    this.#changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.PATCH,
+      { ...this.#film, isHistory: !this.#film.isHistory });
   };
 
   #onMarkAsFavorite = () => {
-    this.#changeData({ ...this.#film, isFavorites: !this.#film.isFavorites });
+    this.#changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.PATCH,
+      { ...this.#film, isFavorites: !this.#film.isFavorites });
   };
 
+  #onDeleteComment = (id) => {
+    const newComments = this.#film.comments.filter((comment) => comment.id !== id);
+
+    this.#changeData(
+      UserAction.DELETE_COMMENT,
+      UpdateType.PATCH,
+      { ...this.#film, comments: newComments });
+  };
+
+  #onAddComment = (update) => {
+    this.#changeData(
+      UserAction.ADD_COMMENT,
+      UpdateType.PATCH,
+      update
+    );
+  }
 }
 
 export { MoviePresenter };

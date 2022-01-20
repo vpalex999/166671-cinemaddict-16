@@ -151,6 +151,7 @@ const getRandomCommentDay = () => {
 };
 
 const getRandomComment = () => ({
+  id: getRandomInteger(1, 100).toString(),
   emoji: getRandomEmoji(),
   text: getRandomText(),
   author: getRandomAuthor(),
@@ -305,4 +306,4 @@ const generateFilm = () => {
   };
 };
 
-export { generateFilm };
+export { generateFilm, getRandomComment};

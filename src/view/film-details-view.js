@@ -1,7 +1,10 @@
+import he from 'he';
 import { SmartView } from './smart-view';
 import { EMOJIS } from '../const';
 import { createCommentDetailsTemplate } from './comment-details-view';
 import { getFilmDurationFormat, getFilmReleaseDateFormat } from '../utils/film';
+import { getRandomComment } from '../mock/film';
+
 
 const createEmojiImgTemplate = (emoji) => `<img src="./images/emoji/${emoji}.png" width="30" height="30" alt="emoji-${emoji}">`;
 
@@ -11,7 +14,7 @@ const createAddCommentTemplate = (emoji, comment) => {
 
   return `<div class="film-details__add-emoji-label">${emojiImg}</div>
     <label class="film-details__comment-label">
-      <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${newComment}</textarea>
+      <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${he.encode(newComment)}</textarea>
     </label>`;
 };
 
@@ -160,7 +163,6 @@ class FilmDetails extends SmartView {
     this._data = FilmDetails.parseFilmToData(film);
 
     this.#setInnerHandlers();
-
   }
 
   #onClickEmoji = (evt) => {
@@ -203,12 +205,19 @@ class FilmDetails extends SmartView {
     this.setAddToWatchListHandler(this._callback.addToWatchList);
     this.setMarkAsWatchedHandler(this._callback.markAsWatched);
     this.setMarkAsFavoriteHandler(this._callback.setMarkAsFavoriteHandler);
+    this.setDeleteCommentHandler(this._callback.deleteComment);
+    this.setAddCommentHandler(this._callback.addComment);
   };
 
   get template() {
     return createFilmDetailsTemplate(this._data);
   }
 
+  reset = (film) => {
+    this.updateData(
+      FilmDetails.parseFilmToData(film),
+    );
+  }
 
   #onClose = () => {
     this._callback.closeDetails();
@@ -257,6 +266,30 @@ class FilmDetails extends SmartView {
       .addEventListener('click', this.#onMarkAsFavoriteClick);
   };
 
+  #onCommentDelete = (evt) => {
+    evt.preventDefault();
+    this._callback.deleteComment(evt.target.id);
+  };
+
+  setDeleteCommentHandler = (callback) => {
+    this._callback.deleteComment = callback;
+    this.element
+      .querySelector('.film-details__comments-list')
+      .addEventListener('click', this.#onCommentDelete);
+  };
+
+  #onAddComment = (evt) => {
+    if (evt.ctrlKey && evt.key === 'Enter') {
+      evt.preventDefault();
+      this._callback.addComment(FilmDetails.parseDataToFilm(this._data));
+    }
+  };
+
+  setAddCommentHandler = (callback) => {
+    this._callback.addComment = callback;
+    document.addEventListener('keydown', this.#onAddComment);
+  };
+
   static parseFilmToData = (film) => ({
     ...film,
     commentEmoji: null,
@@ -264,6 +297,25 @@ class FilmDetails extends SmartView {
     scrollTop: 0,
   });
 
+  static parseDataToFilm = (data) => {
+    const film = { ...data };
+
+    if (film.commentEmoji && film.commentInput) {
+      const newComment = {
+        ...getRandomComment(),
+        emoji: `./images/emoji/${film.commentEmoji}.png`,
+        text: film.commentInput
+      };
+
+      film.comments = [...film.comments, newComment];
+    }
+
+    delete film.commentEmoji;
+    delete film.commentInput;
+    delete film.scrollTop;
+
+    return film;
+  }
 }
 
 export { FilmDetails };

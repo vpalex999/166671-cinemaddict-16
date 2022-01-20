@@ -2,7 +2,7 @@ import { AbstractView } from './abstract-view';
 import { getCommentDateFormat } from '../utils/film';
 
 const createCommentDetailsTemplate = (comment) => {
-  const { emoji, text, author, day } = comment;
+  const { emoji, text, author, day, id } = comment;
 
   const dayComment = getCommentDateFormat(day);
 
@@ -15,7 +15,7 @@ const createCommentDetailsTemplate = (comment) => {
     <p class="film-details__comment-info">
       <span class="film-details__comment-author">${author}</span>
       <span class="film-details__comment-day">${dayComment}</span>
-      <button class="film-details__comment-delete">Delete</button>
+      <button id=${id} class="film-details__comment-delete">Delete</button>
     </p>
   </div>
 </li>`;
