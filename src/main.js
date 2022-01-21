@@ -1,7 +1,8 @@
 import { Profile } from './view/profile-view';
 import { Navigation } from './view/navigation-view';
+import { StatisticView } from './view/statistic-view';
 import { Stats } from './view/stats-view';
-import { FooterStatistic } from './view/statistic-view';
+import { FooterStatistic } from './view/footer-statistic-view';
 import { RenderPosition, render } from './utils/render';
 import { generateFilm } from './mock/film';
 import { generateProfile } from './mock/profile';
@@ -43,5 +44,7 @@ if (films.length) {
 }
 
 movieListPresenter.init();
+
+render(mainElement, new StatisticView().element, RenderPosition.BEFOREEND);
 
 render(footerStatisticElement, new FooterStatistic(films.length).element, RenderPosition.BEFOREEND);
