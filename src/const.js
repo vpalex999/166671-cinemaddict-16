@@ -2,7 +2,7 @@ export const FilterName = {
   ALL: 'All movies',
   WATCH_LIST: 'Watchlist',
   HISTORY: 'History',
-  FAVORITES: 'Favorites'
+  FAVORITES: 'Favorites',
 };
 
 export const SortType = {
@@ -23,4 +23,9 @@ export const UpdateType = {
   PATCH: 'PATCH',  // обновляем только представление фильма и его расширенную реализацию.
   MINOR: 'MINOR',  // пока не понятно
   MAJOR: 'MAJOR',  // всё рендерим
+};
+
+export const MenuItem = {
+  FILTERS: 'FILTERS',
+  STATISTICS: 'STATISTICS',
 };

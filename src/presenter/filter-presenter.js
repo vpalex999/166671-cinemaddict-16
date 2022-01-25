@@ -1,4 +1,4 @@
-import { FilterName, UpdateType } from '../const';
+import { FilterName, MenuItem, UpdateType } from '../const';
 import { remove, render, RenderPosition, replace } from '../utils/render';
 import { Filter } from '../view/filter-view';
 import { filter } from '../utils/filter';
@@ -7,14 +7,17 @@ import { filter } from '../utils/filter';
 class FilterPresenter {
   #filterContainer = null;
   #filterComponent = null;
+  #menuModel = null;
   #filterModel = null;
   #filmsModel = null;
 
-  constructor(mainContainer, filterModel, filmsModel) {
+  constructor(mainContainer, menuModel, filterModel, filmsModel) {
     this.#filterContainer = mainContainer;
+    this.#menuModel = menuModel;
     this.#filterModel = filterModel;
     this.#filmsModel = filmsModel;
 
+    this.#menuModel.addObserver(this.#onMemuModelEvent);
     this.#filterModel.addObserver(this.#onModelEvent);
     this.#filmsModel.addObserver(this.#onModelEvent);
 
@@ -43,7 +46,6 @@ class FilterPresenter {
     ];
   }
 
-
   init = () => {
     const filters = this.filters;
 
@@ -59,7 +61,14 @@ class FilterPresenter {
 
     replace(this.#filterComponent, prevFilterComponent);
     remove(prevFilterComponent);
+  };
 
+  #onMemuModelEvent = (menuItem) => {
+    switch (menuItem){
+      case MenuItem.STATISTICS:
+        this.#filterComponent.setInactive();
+        break;
+    }
   };
 
   #onModelEvent = () => {
@@ -67,6 +76,11 @@ class FilterPresenter {
   };
 
   #onViewAction = (filterType) => {
+    if (this.#menuModel.menu !== MenuItem.FILTERS){
+      this.#menuModel.updateMenu(MenuItem.FILTERS);
+      this.init();
+    }
+
     if (this.#filterModel.filter === filterType) {
       return;
     }
