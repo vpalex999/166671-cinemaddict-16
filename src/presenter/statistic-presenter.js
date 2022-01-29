@@ -8,11 +8,13 @@ class StatisticPresenter {
   #statisticComponent = null;
   #menuModel = null;
   #filmModel = null;
+  #profile = null;
 
-  constructor(mainContainer, menuModel, filmModel){
+  constructor(mainContainer, menuModel, filmModel, profile) {
     this.#mainContainer = mainContainer;
     this.#menuModel = menuModel;
     this.#filmModel = filmModel;
+    this.#profile = profile;
   }
 
   init = () => {
@@ -20,7 +22,7 @@ class StatisticPresenter {
   };
 
   #onModelEvent = (menuItem) => {
-    switch (menuItem){
+    switch (menuItem) {
       case MenuItem.FILTERS:
         this.#removeStatistic();
         break;
@@ -36,9 +38,10 @@ class StatisticPresenter {
   };
 
   #displayStatistic = () => {
-    if (this.#statisticComponent === null){
-      this.#statisticComponent = new StatisticView();
+    if (this.#statisticComponent === null) {
+      this.#statisticComponent = new StatisticView(this.#filmModel.films, this.#profile);
       render(this.#mainContainer, this.#statisticComponent, RenderPosition.BEFOREEND);
+      this.#statisticComponent.init();
     }
   };
 

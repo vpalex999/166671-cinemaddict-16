@@ -1,6 +1,8 @@
 import { AbstractView } from './abstract-view';
 import { SortType } from '../const';
 
+const SORT_ACTIVE_CLASS = 'sort__button--active';
+
 const createSortFilmsTemplate = () => (
   `<ul class="sort">
     <li><a href="#" class="sort__button sort__button--active" data-sort-type="${SortType.DEFAULT}">Sort by default</a></li>
@@ -21,6 +23,16 @@ class SortFilms extends AbstractView {
     }
 
     evt.preventDefault();
+
+    const buttonsElement = this.element.querySelectorAll('.sort__button--active');
+
+    for (const element of buttonsElement) {
+      if (element.classList.contains(SORT_ACTIVE_CLASS)) {
+        element.classList.remove(SORT_ACTIVE_CLASS);
+      }
+    }
+
+    evt.target.classList.add(SORT_ACTIVE_CLASS);
     this._callback.sortTypeChange(evt.target.dataset.sortType);
   };
 

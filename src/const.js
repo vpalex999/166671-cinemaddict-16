@@ -29,3 +29,17 @@ export const MenuItem = {
   FILTERS: 'FILTERS',
   STATISTICS: 'STATISTICS',
 };
+
+export const StatisticFilter = {
+  ALL: 'all-time',
+  TODAY: 'today',
+  WEEK: 'week',
+  MONTH: 'month',
+  YEAR: 'year',
+};
+
+export const STATISTIC_FILTER_DATE = {
+  WEEK: 'week',
+  MONTH: 'month',
+  YEAR: 'year',
+};

@@ -30,7 +30,7 @@ const footerStatisticElement = footerElement.querySelector('.footer__statistics'
 
 const navigationPresenter = new NavigationPresenter(mainElement, menuModel, filterModel, filmsModel);
 const movieListPresenter = new MovieListPresenter(mainElement, filmsModel, filterModel, menuModel);
-const statisticPresenter = new StatisticPresenter(mainElement, menuModel, filmsModel);
+const statisticPresenter = new StatisticPresenter(mainElement, menuModel, filmsModel, profile);
 
 if (films.length) {
   render(headerElement, new Profile(profile).element, RenderPosition.BEFOREEND);
@@ -41,4 +41,3 @@ movieListPresenter.init();
 statisticPresenter.init();
 
 render(footerStatisticElement, new FooterStatistic(films.length).element, RenderPosition.BEFOREEND);
-

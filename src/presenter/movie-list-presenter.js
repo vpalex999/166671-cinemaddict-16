@@ -62,6 +62,7 @@ class MovieListPresenter {
 
   init = () => {
 
+    this.#currentSortType = SortType.DEFAULT;
     render(this.#mainContainer, this.#filmsComponent, RenderPosition.BEFOREEND);
     render(this.#filmsComponent, this.#filmsListComponent, RenderPosition.BEFOREEND);
 
@@ -83,7 +84,7 @@ class MovieListPresenter {
   };
 
   #onMenuModelEvent = (menuItem) => {
-    switch (menuItem){
+    switch (menuItem) {
       case MenuItem.FILTERS:
         this.init();
         break;
@@ -100,6 +101,7 @@ class MovieListPresenter {
         this.#filmPresenterMap.get(data.id).init(data);
         break;
       case UpdateType.MAJOR:
+        this.#clearSort();
         this.#clearFilmList();
         this.#renderMovieList();
         break;
@@ -151,7 +153,6 @@ class MovieListPresenter {
     }
   };
 
-
   #onSortTypeChange = (sortType) => {
 
     if (this.#currentSortType === sortType) {
@@ -162,6 +163,10 @@ class MovieListPresenter {
     this.#clearFilmList();
     this.#renderMovieList();
   }
+
+  #clearSort = () => {
+    remove(this.#sortFilmsComponent);
+  };
 
   #renderSort = () => {
     this.#sortFilmsComponent.setSortTypeChangeHandler(this.#onSortTypeChange);
