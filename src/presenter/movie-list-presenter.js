@@ -7,7 +7,7 @@ import { ShowMoreButton } from '../view/button-show-more-view';
 import { render, RenderPosition, remove } from '../utils/render';
 import { sortTaskDate, sortTaskRating } from '../utils/film';
 import { MoviePresenter } from './movie-presenter';
-import { SortType, UserAction, UpdateType, FilterName } from '../const';
+import { SortType, UserAction, UpdateType, FilterName, MenuItem } from '../const';
 import { filter } from '../utils/filter';
 
 const FILM_COUNT_PER_STEP = 5;
@@ -23,20 +23,21 @@ class MovieListPresenter {
   #filmPresenterMap = new Map();
   #filmsModel = null;
   #filterModel = null;
+  #menuModel = null;
   #filterType = FilterName.ALL;
   #noFilmsTitle = null;
   #filmsTitleUpload = null;
 
   #currentSortType = SortType.DEFAULT;
 
-  constructor(mainContainer, filmsModel, filterModel) {
+  constructor(mainContainer, filmsModel, filterModel, menuModel) {
     this.#mainContainer = mainContainer;
     this.#filmsModel = filmsModel;
     this.#filterModel = filterModel;
+    this.#menuModel = menuModel;
     this.#filterType = this.#filterModel.filter;
 
-    this.#filmsModel.addObserver(this.#onModelEvent);
-    this.#filterModel.addObserver(this.#onModelEvent);
+    this.#menuModel.addObserver(this.#onMenuModelEvent);
   }
 
   get films() {
@@ -61,11 +62,37 @@ class MovieListPresenter {
 
   init = () => {
 
+    this.#currentSortType = SortType.DEFAULT;
     render(this.#mainContainer, this.#filmsComponent, RenderPosition.BEFOREEND);
     render(this.#filmsComponent, this.#filmsListComponent, RenderPosition.BEFOREEND);
 
+    this.#filmsModel.addObserver(this.#onModelEvent);
+    this.#filterModel.addObserver(this.#onModelEvent);
+
     this.#renderMovieList();
-  }
+  };
+
+  #destroy = () => {
+    this.#clearFilmList();
+    remove(this.#sortFilmsComponent);
+    remove(this.#filmsListContainerComponent);
+    remove(this.#filmsListComponent);
+    remove(this.#filmsComponent);
+
+    this.#filmsModel.removeObserver(this.#onModelEvent);
+    this.#filterModel.removeObserver(this.#onModelEvent);
+  };
+
+  #onMenuModelEvent = (menuItem) => {
+    switch (menuItem) {
+      case MenuItem.FILTERS:
+        this.init();
+        break;
+      case MenuItem.STATISTICS:
+        this.#destroy();
+        break;
+    }
+  };
 
   #onModelEvent = (updateType, data) => {
     // Коллбэк вызывается моделью по подписке
@@ -74,6 +101,7 @@ class MovieListPresenter {
         this.#filmPresenterMap.get(data.id).init(data);
         break;
       case UpdateType.MAJOR:
+        this.#clearSort();
         this.#clearFilmList();
         this.#renderMovieList();
         break;
@@ -125,7 +153,6 @@ class MovieListPresenter {
     }
   };
 
-
   #onSortTypeChange = (sortType) => {
 
     if (this.#currentSortType === sortType) {
@@ -136,6 +163,10 @@ class MovieListPresenter {
     this.#clearFilmList();
     this.#renderMovieList();
   }
+
+  #clearSort = () => {
+    remove(this.#sortFilmsComponent);
+  };
 
   #renderSort = () => {
     this.#sortFilmsComponent.setSortTypeChangeHandler(this.#onSortTypeChange);

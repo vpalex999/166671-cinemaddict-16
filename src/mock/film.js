@@ -1,4 +1,5 @@
 import { nanoid } from 'nanoid';
+import dayjs from 'dayjs';
 import { getRandomInteger, getRandomFloat } from '../utils/common';
 
 const MIN_DURATION = 30;
@@ -278,6 +279,13 @@ const getRandomCountry = () => {
 
 const getRandomAge = () => getRandomInteger(0, 18);
 
+const getRandomWatchingDate = () => {
+  const daysMax = 400;
+  const randomDay = getRandomInteger(0, daysMax);
+
+  return dayjs().subtract(randomDay, 'day').toISOString();
+};
+
 const generateFilm = () => {
 
   const title = getRandomTitle();
@@ -302,8 +310,9 @@ const generateFilm = () => {
     age: getRandomAge(),
     isWatch,
     isHistory: !isWatch && Boolean(getRandomInteger()),
-    isFavorites: Boolean(getRandomInteger())
+    isFavorites: Boolean(getRandomInteger()),
+    watchingDate: getRandomWatchingDate(),
   };
 };
 
-export { generateFilm, getRandomComment};
+export { generateFilm, getRandomComment };

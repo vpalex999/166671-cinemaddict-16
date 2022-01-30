@@ -76,6 +76,14 @@ class Filter extends AbstractView {
     return createFilterTemplate(this.#filters, this.#currentFilter);
   }
 
+  setInactive = () => {
+    // снимает с кнопок фильтров класс активности
+    const filtersElement = this.element.querySelectorAll('a');
+    filtersElement.forEach((filterElement) => {
+      filterElement.classList.remove(ACTIVE_FILTER_CLASS);
+    });
+  };
+
   #onFilterTypeChange = (evt) => {
     evt.preventDefault();
     let filterType = null;
